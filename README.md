@@ -9,12 +9,16 @@ Mathematical Thinking/
 ├── index.html              # 页面入口（学习模块导航）
 ├── css/
 │   ├── style.css           # 全局样式
-│   └── game.css            # 游戏模块样式
+│   └── game.css            # 游戏模块样式（含十格阵/报告）
 ├── js/
 │   ├── main.js             # 首页脚本
-│   └── game-number.js      # 数感游戏（生成器为纯函数，可单测）
+│   ├── game-number.js      # 数感游戏（生成器为纯函数，可单测）
+│   └── report.js           # 学习报告脚本
 ├── modules/
-│   └── number-sense.html   # 数感 · 数一数比一比（已完成）
+│   ├── number-sense.html   # 数感 · 数一数比一比（已完成）
+│   └── report.html         # 学习报告（家长参与）
+├── docs/
+│   └── 设计说明-幼儿学习科学.md  # 理论→功能对照设计文档
 └── assets/                 # 图片、音频等资源（待添加）
 ```
 
