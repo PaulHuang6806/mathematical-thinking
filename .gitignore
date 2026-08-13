@@ -1,0 +1,22 @@
+# 依赖
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+
+# 构建产物
+dist/
+build/
+*.zip
+*.mp3
+*.mp4
+
+# 编辑器/系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 环境变量
+.env
+.env.local
