@@ -6,10 +6,16 @@
 
 ```
 Mathematical Thinking/
-├── index.html      # 页面入口
-├── css/style.css   # 样式
-├── js/main.js      # 脚本入口
-└── assets/         # 图片、音频等资源（待添加）
+├── index.html              # 页面入口（学习模块导航）
+├── css/
+│   ├── style.css           # 全局样式
+│   └── game.css            # 游戏模块样式
+├── js/
+│   ├── main.js             # 首页脚本
+│   └── game-number.js      # 数感游戏（生成器为纯函数，可单测）
+├── modules/
+│   └── number-sense.html   # 数感 · 数一数比一比（已完成）
+└── assets/                 # 图片、音频等资源（待添加）
 ```
 
 ## 本地运行

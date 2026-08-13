@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数感 · 数一数比一比 — Mathematical Thinking</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/game.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-logo">∑</span>
+        <span class="brand-name">数感 · 数一数比一比</span>
+      </div>
+      <nav class="main-nav">
+        <a href="../index.html">← 返回首页</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container game-wrap">
+    <!-- 模式选择 -->
+    <section id="screen-start" class="screen">
+      <h1 class="section-title">选择玩法</h1>
+      <p class="mode-hint">每局 10 题，答对得一颗星 ⭐</p>
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="count">
+          <span class="mode-icon">🔢</span>
+          <span class="mode-name">数一数</span>
+          <span class="mode-desc">数出图案的数量</span>
+        </button>
+        <button class="mode-card" data-mode="compare">
+          <span class="mode-icon">⚖️</span>
+          <span class="mode-name">比一比</span>
+          <span class="mode-desc">找出更大或更小</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 游戏 -->
+    <section id="screen-game" class="screen" style="display:none">
+      <div class="game-top">
+        <span id="mode-title" class="game-mode"></span>
+        <span id="round-info">第 1 / 10 题</span>
+        <span id="score-info">⭐ 0</span>
+      </div>
+      <div class="progress"><div id="progress-fill"></div></div>
+      <p id="q-prompt" class="q-prompt"></p>
+      <div id="question-area"></div>
+      <div id="options" class="options"></div>
+      <p id="feedback" class="feedback"></p>
+    </section>
+
+    <!-- 结算 -->
+    <section id="screen-end" class="screen" style="display:none">
+      <h2 class="section-title">本轮完成！</h2>
+      <p id="end-stars" class="end-stars"></p>
+      <p id="end-msg" class="end-msg"></p>
+      <div class="end-actions">
+        <button id="btn-again" class="btn btn-primary">再玩一次</button>
+        <button id="btn-menu" class="btn btn-ghost">换个玩法</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/game-number.js" defer></script>
+</body>
+</html>

@@ -199,6 +199,17 @@ body {
   font-size: 12px;
 }
 
+.card-badge-live {
+  background: #e6f9ee;
+  color: #1a9d4e;
+}
+
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 /* ---------- 关于 ---------- */
 .about {
   padding: 40px 0 60px;
