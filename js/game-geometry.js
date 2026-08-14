@@ -114,23 +114,23 @@
   // ================= 表扬与鼓励语库（过程导向 · 成长型思维） =================
   const PHRASES = {
     firstTry: [
-      '太棒了，一次就答对！',
+      '太棒啦，一次就答对！',
       '你真认真！',
       '我看到了你的努力！',
       '认得又快又准！',
       '好厉害，继续加油！',
-      '你越来越棒了！',
+      '你越来越棒啦！',
     ],
     retry: [
-      '答对啦！再试一次就成功了！',
+      '答对啦！再试一次就成功啦！',
       '坚持就是胜利！',
       '你看，多试就能做到！',
       '进步啦！',
     ],
     encourage: [
-      '没关系，再找一次',
+      '没关系，再找一次嘛',
       '别急，慢慢看',
-      '再仔细看看',
+      '再仔细看看哦',
       '你可以的，再试试',
     ],
   };
@@ -223,46 +223,15 @@
     };
   }
 
-  // ================= 语音播报（Web Speech API，离线可用，无中文语音则跳过） =================
-  let soundOn = true;
-  try { soundOn = localStorage.getItem('mt_sound') !== '0'; } catch (e) { /* 忽略 */ }
-
-  let voices = [];
-  function loadVoices() {
-    try {
-      if (!('speechSynthesis' in global)) return;
-      voices = global.speechSynthesis.getVoices();
-      if (!voices.length) {
-        global.speechSynthesis.onvoiceschanged = function () {
-          voices = global.speechSynthesis.getVoices();
-        };
-      }
-    } catch (e) { /* 忽略 */ }
-  }
-  loadVoices();
-
-  function zhVoice() {
-    return voices.find((v) => /zh[-_]CN/i.test(v.lang)) ||
-      voices.find((v) => /^zh/i.test(v.lang)) || null;
-  }
+  // ================= 语音播报（优先 base64 可爱语音包，缺失回退 Web Speech；见 js/voice.js） =================
+  const voice = global.__mtVoice;
 
   function speak(text, rate) {
-    if (!soundOn || !('speechSynthesis' in global)) return;
-    try {
-      const u = new SpeechSynthesisUtterance(text);
-      const v = zhVoice();
-      if (v) u.voice = v;
-      u.lang = 'zh-CN';
-      u.rate = rate || 0.9;
-      global.speechSynthesis.cancel();
-      global.speechSynthesis.speak(u);
-    } catch (e) { /* 语音失败不影响游戏 */ }
+    if (voice) voice.play(text, rate);
   }
 
   function stopSpeak() {
-    try {
-      if ('speechSynthesis' in global) global.speechSynthesis.cancel();
-    } catch (e) { /* 忽略 */ }
+    if (voice) voice.stop();
   }
 
   // ================= 音效（WebAudio 合成） =================
@@ -287,7 +256,7 @@
     } catch (e) { /* 音效失败不影响游戏 */ }
   }
 
-  function soundCorrect() { tone(660, 0, 0.15); tone(880, 0.12, 0.2); }
+  function soundCorrect() { tone(523, 0, 0.12); tone(659, 0.1, 0.12); tone(784, 0.2, 0.18); tone(1046, 0.3, 0.28); } // 上行琶音 C-E-G-C，更欢快
   function soundWrong() { tone(220, 0, 0.25); }
 
   // ================= SVG 渲染 =================
@@ -537,12 +506,13 @@
 
     const btnSound = $('btn-sound');
     if (btnSound) {
-      btnSound.textContent = soundOn ? '🔊' : '🔇';
+      btnSound.textContent = voice.isSoundOn() ? '🔊' : '🔇';
       btnSound.addEventListener('click', () => {
-        soundOn = !soundOn;
-        try { localStorage.setItem('mt_sound', soundOn ? '1' : '0'); } catch (e) { /* 忽略 */ }
-        btnSound.textContent = soundOn ? '🔊' : '🔇';
-        if (soundOn) speak('声音已打开');
+        const on = !voice.isSoundOn();
+        voice.setSound(on);
+        try { localStorage.setItem('mt_sound', on ? '1' : '0'); } catch (e) { /* 忽略 */ }
+        btnSound.textContent = on ? '🔊' : '🔇';
+        if (on) speak('声音已打开');
       });
     }
 
