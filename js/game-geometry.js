@@ -368,6 +368,11 @@
     state.results = [];
     state.startTs = Date.now();
     $('mode-title').textContent = mode === 'shape' ? '认图形' : '找图形';
+    // 猫头鹰开场打招呼
+    if (global.__mtOwl) {
+      global.__mtOwl.flyIn('wave');
+      global.__mtOwl.say('开始啦，我们一起玩吧！', 1600);
+    }
     nextQuestion();
     showScreen('game');
   }
@@ -404,6 +409,10 @@
     showFeedback(true, phrase);
     speak(phrase);
     soundCorrect();
+    // 猫头鹰：每攒 3 个金星飞出来庆祝一次
+    if (global.__mtOwl && state.gold >= 3 && state.gold % 3 === 0) {
+      global.__mtOwl.flyIn('cheer');
+    }
 
     setTimeout(advance, 1100);
   }
@@ -420,7 +429,8 @@
     const name = SHAPES[shapeId].name;
 
     if (state.attempts === 1) {
-      // 第 1 次答错：图形特征提示，留在本题
+      // 第 1 次答错：图形特征提示，留在本题；猫头鹰偶尔出来陪着
+      if (global.__mtOwl && Math.random() < 0.4) global.__mtOwl.flyIn('encourage');
       showHint('提示：' + SHAPES[shapeId].hint);
       setTimeout(() => { state.locked = false; }, 900);
     } else if (state.attempts === 2) {
@@ -474,6 +484,16 @@
 
     saveSession();
     showScreen('end');
+    // 猫头鹰结算登场：全对星星雨大庆祝，其余鼓劲
+    if (global.__mtOwl) {
+      if (state.gold === TOTAL_ROUNDS) {
+        global.__mtOwl.flyIn('perfect');
+        global.__mtOwl.say('哇，太厉害啦！', 900);
+      } else {
+        global.__mtOwl.flyIn('end');
+        global.__mtOwl.say('再来一局吧！', 1500);
+      }
+    }
   }
 
   // 学习记录：仅存本机浏览器（与数感共用 mt_sessions）

@@ -78,6 +78,11 @@ for name, hint in geo_hints:
 # 其他
 add("声音已打开", "sound_on")
 
+# 猫头鹰吉祥物专属
+add("开始啦，我们一起玩吧！", "owl_start")
+add("哇，太厉害啦！", "owl_perfect")
+add("再来一局吧！", "owl_end")
+
 TOTAL = len(VOICES)
 print(f"共 {TOTAL} 条语音，音色 {VOICE} rate={RATE} pitch={PITCH}")
 

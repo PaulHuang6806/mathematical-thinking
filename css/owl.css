@@ -1,0 +1,123 @@
+/* ============================================
+   Mathematical Thinking · 猫头鹰吉祥物样式
+   ============================================ */
+
+/* ---------- 舞台（左下角浮动，不挡答题区） ---------- */
+.owl-stage {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.owl-hidden {
+  display: none;
+}
+
+.owl-bird {
+  width: 110px;
+  transform-origin: bottom center;
+}
+
+/* 眨眼：每 3.5s 眨一次（眼白+瞳孔整体压扁） */
+.owl-eye {
+  transform-origin: center;
+  animation: owl-blink 3.5s infinite;
+}
+
+@keyframes owl-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95%, 97% { transform: scaleY(0.08); }
+}
+
+/* 飞入：从屏幕左侧滑入，带落地弹跳感 */
+.owl-fly-in {
+  animation: owl-fly-in 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+
+@keyframes owl-fly-in {
+  0% { transform: translateX(-160px) translateY(30px) rotate(-8deg); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: translateX(0) translateY(0) rotate(0); opacity: 1; }
+}
+
+/* 落地弹跳 */
+.owl-bounce {
+  animation: owl-bounce 0.55s ease;
+}
+
+@keyframes owl-bounce {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-18px); }
+  60% { transform: translateY(0); }
+  80% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+/* 扇翅（庆祝时） */
+.owl-flap .owl-wing {
+  transform-origin: 90px 70px;
+  animation: owl-flap 0.35s ease-in-out infinite alternate;
+}
+
+.owl-flap .owl-wing-back {
+  transform-origin: 24px 66px;
+  animation: owl-flap-back 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes owl-flap {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-26deg); }
+}
+
+@keyframes owl-flap-back {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(18deg); }
+}
+
+/* 歪头（答错陪伴，表示"没关系"） */
+.owl-tilt {
+  transform: rotate(-6deg);
+}
+
+/* 说话时嘴巴开合 */
+.owl-beak-talk {
+  animation: owl-beak-talk 0.18s ease-in-out 4 alternate;
+  transform-origin: 60px 62px;
+}
+
+@keyframes owl-beak-talk {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0.45); }
+}
+
+/* ---------- 星星雨（全对庆祝） ---------- */
+.owl-confetti-box {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  width: 110px;
+  height: 0;
+}
+
+.owl-confetti {
+  position: absolute;
+  bottom: 0;
+  animation-name: owl-confetti-fall;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+@keyframes owl-confetti-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-180px) rotate(300deg); opacity: 0; }
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 640px) {
+  .owl-bird {
+    width: 84px;
+  }
+}
