@@ -120,6 +120,10 @@
       '认得又快又准！',
       '好厉害，继续加油！',
       '你越来越棒啦！',
+      '哇，一下就找到啦！',
+      '小手一点就对啦！',
+      '猫头鹰都看呆啦！',
+      '一眼就认出它啦！',
     ],
     retry: [
       '答对啦！再试一次就成功啦！',
@@ -132,6 +136,23 @@
       '别急，慢慢看',
       '再仔细看看哦',
       '你可以的，再试试',
+    ],
+    // 连对庆祝（连续 3 个金星）
+    streak: [
+      '哇哇哇！连对啦，太厉害啦！',
+      '猫头鹰飞过来给你鼓掌！',
+      '太棒啦！我们继续！',
+      '你好厉害，像小超人一样！',
+      '哇！我都想跟你学啦！',
+      '连对啦连对啦！继续冲！',
+      '哗——！又答对啦！',
+    ],
+    // 大庆祝（连续 5 个金星）
+    huge: [
+      '哇——！太厉害啦！星星都飞起来啦！',
+      '你是今天的数学小冠军！',
+      '猫头鹰都转圈圈啦！太棒啦！',
+      '哇！我已经跟不上你啦！',
     ],
   };
 
@@ -282,6 +303,7 @@
     locked: false,
     question: null,
     results: [],
+    streak: 0, // 连续一次答对次数（猫头鹰分级庆祝）
     startTs: 0,
   };
 
@@ -366,6 +388,7 @@
     state.level = 0;
     state.locked = false;
     state.results = [];
+    state.streak = 0;
     state.startTs = Date.now();
     $('mode-title').textContent = mode === 'shape' ? '认图形' : '找图形';
     // 猫头鹰开场打招呼
@@ -381,6 +404,8 @@
     state.question = state.mode === 'shape'
       ? shapeQuestion(state.round, state.level)
       : findQuestion(state.round, state.level);
+    // 猫头鹰安静回到左下角（庆祝完不挡答题区）
+    if (global.__mtOwl) global.__mtOwl.flyIn('idle');
     renderQuestion();
   }
 
@@ -402,16 +427,22 @@
     state.locked = true;
     stopSpeak();
     const firstTry = state.attempts === 0;
-    if (firstTry) state.gold++; else state.silver++;
+    if (firstTry) { state.gold++; state.streak++; } else { state.silver++; state.streak = 0; }
     state.results.push(firstTry);
 
-    const phrase = firstTry ? pickPhrase(PHRASES.firstTry) : pickPhrase(PHRASES.retry);
+    // 表扬语按连对级别升级：连对 5+ 大庆祝 → 连对 3+ 惊喜 → 普通
+    const phrase = !firstTry ? pickPhrase(PHRASES.retry)
+      : state.streak >= 5 ? pickPhrase(PHRASES.huge)
+      : state.streak >= 3 ? pickPhrase(PHRASES.streak)
+      : pickPhrase(PHRASES.firstTry);
     showFeedback(true, phrase);
     speak(phrase);
     soundCorrect();
-    // 猫头鹰：每攒 3 个金星飞出来庆祝一次
-    if (global.__mtOwl && state.gold >= 3 && state.gold % 3 === 0) {
-      global.__mtOwl.flyIn('cheer');
+    // 猫头鹰按表现分级活动：连对 5+ 飞到屏幕中间撒星星，连对 3+ 飞到中间，其余攒 3 金星角落庆祝
+    if (global.__mtOwl) {
+      if (state.streak >= 5) global.__mtOwl.flyIn('huge');
+      else if (state.streak >= 3) global.__mtOwl.flyIn('big');
+      else if (state.gold >= 3 && state.gold % 3 === 0) global.__mtOwl.flyIn('cheer');
     }
 
     setTimeout(advance, 1100);
@@ -421,6 +452,7 @@
     state.locked = true;
     stopSpeak();
     state.attempts++;
+    state.streak = 0; // 连对中断
     const q = state.question;
     showFeedback(false, pickPhrase(PHRASES.encourage));
     soundWrong();
@@ -560,6 +592,7 @@
       gold: state.gold,
       silver: state.silver,
       helped: state.helped,
+      streak: state.streak,
       locked: state.locked,
       level: state.level,
       results: state.results.slice(-8),

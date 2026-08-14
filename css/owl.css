@@ -2,13 +2,28 @@
    Mathematical Thinking · 猫头鹰吉祥物样式
    ============================================ */
 
-/* ---------- 舞台（左下角浮动，不挡答题区） ---------- */
+/* ---------- 舞台（默认左下角，可滑翔到屏幕中间） ---------- */
 .owl-stage {
   position: fixed;
   left: 10px;
   bottom: 10px;
   z-index: 60;
   pointer-events: none;
+  transition: left 0.7s cubic-bezier(0.3, 0.8, 0.4, 1), bottom 0.7s cubic-bezier(0.3, 0.8, 0.4, 1), transform 0.7s cubic-bezier(0.3, 0.8, 0.4, 1);
+}
+
+/* 飞到屏幕中间（连对庆祝）：位置偏上、尺寸适中，不遮挡下方选项按钮 */
+.owl-center {
+  left: 50%;
+  bottom: 42%;
+  transform: translateX(-50%) scale(1.15);
+}
+
+/* 结算大庆祝：居中偏下大号登场（结算页无交互元素，可以大胆） */
+.owl-center-perfect {
+  left: 50%;
+  bottom: 22%;
+  transform: translateX(-50%) scale(1.45);
 }
 
 .owl-hidden {
@@ -53,6 +68,30 @@
   60% { transform: translateY(0); }
   80% { transform: translateY(-8px); }
   100% { transform: translateY(0); }
+}
+
+/* 屏幕中间弹跳（保持居中定位 + 放大比例） */
+.owl-bounce-center {
+  animation: owl-bounce-center 0.55s ease;
+}
+
+@keyframes owl-bounce-center {
+  0%, 100% { transform: translateX(-50%) scale(1.15) translateY(0); }
+  30% { transform: translateX(-50%) scale(1.15) translateY(-22px); }
+  60% { transform: translateX(-50%) scale(1.15) translateY(0); }
+  80% { transform: translateX(-50%) scale(1.15) translateY(-9px); }
+}
+
+/* 结算大版弹跳 */
+.owl-bounce-center-perfect {
+  animation: owl-bounce-center-perfect 0.55s ease;
+}
+
+@keyframes owl-bounce-center-perfect {
+  0%, 100% { transform: translateX(-50%) scale(1.45) translateY(0); }
+  30% { transform: translateX(-50%) scale(1.45) translateY(-30px); }
+  60% { transform: translateX(-50%) scale(1.45) translateY(0); }
+  80% { transform: translateX(-50%) scale(1.45) translateY(-12px); }
 }
 
 /* 扇翅（庆祝时） */

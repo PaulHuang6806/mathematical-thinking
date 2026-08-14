@@ -77,6 +77,10 @@
     bird.className = 'owl-bird';
     stage.classList.remove('owl-fly-in');
     stage.classList.remove('owl-bounce');
+    stage.classList.remove('owl-bounce-center');
+    stage.classList.remove('owl-bounce-center-perfect');
+    stage.classList.remove('owl-center'); // 从屏幕中间滑回左下角
+    stage.classList.remove('owl-center-perfect');
     stage.classList.remove('owl-hidden');
   }
 
@@ -85,20 +89,37 @@
     ensureStage();
     if (speechTimer) { clearTimeout(speechTimer); speechTimer = null; }
     clearAnim();
+    if (pose === 'idle') return; // 安静回到左下角蹲着，不打扰
     // 挥翅膀 vs 扇翅
     bird.classList.remove('owl-flap');
-    if (pose === 'cheer' || pose === 'perfect') bird.classList.add('owl-flap');
+    if (pose === 'cheer' || pose === 'big' || pose === 'huge' || pose === 'perfect') bird.classList.add('owl-flap');
     // 歪头（答错陪伴）
     bird.classList.toggle('owl-tilt', pose === 'encourage');
     stage.classList.add('owl-fly-in');
-    if (pose === 'cheer' || pose === 'perfect' || pose === 'end') {
+    if (pose === 'cheer' || pose === 'end') {
       setTimeout(() => stage.classList.add('owl-bounce'), 650);
     }
-    if (pose === 'perfect') {
-      confettiBox.innerHTML = confettiHtml(14);
+    if (pose === 'big' || pose === 'huge' || pose === 'perfect') {
+      // 先飞入角落，再滑翔到屏幕中间（结算用大版，局中用小版避免挡选项）
+      setTimeout(() => flyToCenter(pose === 'perfect'), 480);
+    }
+    if (pose === 'huge' || pose === 'perfect') {
+      setTimeout(() => {
+        confettiBox.innerHTML = confettiHtml(pose === 'perfect' ? 14 : 6);
+      }, 1200); // 到中间后撒星星
     } else {
       confettiBox.innerHTML = '';
     }
+  }
+
+  // 从角落滑翔到屏幕正中间（放大 + 弹跳）
+  function flyToCenter(isPerfect) {
+    if (!stage) return;
+    stage.classList.add(isPerfect ? 'owl-center-perfect' : 'owl-center');
+    setTimeout(() => {
+      stage.classList.add(isPerfect ? 'owl-bounce-center-perfect' : 'owl-bounce-center');
+      setTimeout(() => stage.classList.remove('owl-bounce-center', 'owl-bounce-center-perfect'), 900);
+    }, 700);
   }
 
   function say(text, delayMs) {
