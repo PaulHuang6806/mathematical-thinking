@@ -24,6 +24,8 @@
   function modeName(m) {
     if (m === 'count') return '数一数';
     if (m === 'compare') return '比一比';
+    if (m === 'shape') return '认图形';
+    if (m === 'find') return '找图形';
     return m;
   }
 
