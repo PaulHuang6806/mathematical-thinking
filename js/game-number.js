@@ -86,10 +86,12 @@
 
   // ================= 题目生成（纯函数，供单测） =================
   // level: 自适应难度档 0..2，叠加在轮次基础难度上
+  // 数量范围 3..10：十格阵最多 10 格，保证画面图案数与答案严格一致
   function countQuestion(round, level) {
     const lv = level || 0;
-    const n = clamp(3 + Math.floor((round - 1) * 0.9) + randInt(0, 1) + lv, 3, 12);
-    const cands = [n - 1, n + 1, n - 2, n + 2].filter((x) => x !== n && x >= 1 && x <= 15);
+    const n = clamp(3 + Math.floor((round - 1) * 0.8) + randInt(0, 1) + Math.floor(lv * 0.7), 3, 10);
+    // 干扰项同样限制在 1..10（十格阵范围内，贴近答案更有迷惑性）
+    const cands = [n - 1, n + 1, n - 2, n + 2].filter((x) => x !== n && x >= 1 && x <= 10);
     const distractors = shuffle(cands).slice(0, 2);
     const options = shuffle([n, distractors[0], distractors[1]]);
     return {
