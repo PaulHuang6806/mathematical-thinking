@@ -85,7 +85,9 @@
     crescent: {
       id: 'crescent', name: '月牙形', hint: '像弯弯的月亮', color: '#F8C471',
       similar: ['circle', 'ellipse'],
-      svg: '<path d="M62 8 A42 42 0 1 0 62 92 A36 36 0 1 1 62 8 Z"/>',
+      // evenodd 双圆镂空：外圆(46,50,r42) - 内圆(58,50,r30) 相切 → 弯月，无背景色依赖
+      // 旧路径 M62 8 A42 42 0 1 0 62 92 A36 36 0 1 1 62 8 Z 两弧反向在 nonzero 填充下抵消，渲染空白
+      svg: '<path fill-rule="evenodd" d="M46,8 a42,42 0 1,0 0,84 a42,42 0 1,0 0,-84 M58,20 a30,30 0 1,0 0,60 a30,30 0 1,0 0,-60 Z"/>',
     },
   };
 
