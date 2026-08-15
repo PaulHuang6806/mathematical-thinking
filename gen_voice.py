@@ -68,6 +68,7 @@ add("你看，多试就能做到！", "praise_retry_3")
 add("进步啦！", "praise_retry_4")
 # 鼓励（答错）
 add("没关系，再数一次嘛", "encourage_num_1")
+add("没关系，再想想嘛", "encourage_logic_1")
 add("别急，慢慢来", "encourage_num_2")
 add("再仔细看看哦", "encourage_share")
 add("你可以的，再试试", "encourage_share_2")
@@ -96,6 +97,67 @@ for name, hint in geo_hints:
 
 # 其他
 add("声音已打开", "sound_on")
+
+# ============ 逻辑模块（找规律 / 找不同 / 谁最高） ============
+# 题干
+add("找规律，下一个是什么？", "prompt_pattern")
+add("哪一个不一样？", "prompt_odd")
+add("仔细听，想一想", "prompt_infer")
+# 提示
+add("看看前面是怎么排的", "hint_pattern_1")
+add("两个两个一组，跟着排", "hint_pattern_2")
+add("三个一组，轮流排", "hint_pattern_3")
+add("每个都比前面多几个？", "hint_pattern_num")
+add("每次都加一，想一想", "hint_pattern_step1")
+add("每次都加二，想一想", "hint_pattern_step2")
+add("每次都加三，想一想", "hint_pattern_step3")
+add("每次都少两个，想一想", "hint_pattern_stepm2")
+add("找找哪一个和别的不一样", "hint_odd_1")
+add("看看它们的颜色", "hint_odd_2")
+add("它们是一家的吗？", "hint_odd_3")
+add("想想谁比谁高", "hint_infer_1")
+add("想想谁比谁快", "hint_infer_1b")
+add("想想谁比谁大", "hint_infer_1c")
+add("想想谁比谁重", "hint_infer_1d")
+add("再听一遍条件，慢慢想", "hint_infer_2")
+# 找规律揭晓（数字答案 2..14 全预合成；图案揭晓用通用句）
+for n in range(2, 15):
+    add(f"是 {n}，规律被你发现啦！", f"reveal_pattern_num_{n}")
+add("是它，规律被你发现啦！", "reveal_pattern_emoji")
+# 找不同揭晓
+add("它和别的不一样，我们一起记住它", "reveal_odd")
+
+# 谁最高：推理句全量预合成（与 game-logic.js 的 INFER_GROUPS/INFER_ROTATIONS 完全一致，保证查表命中）
+INFER_GROUPS = [
+    ("高", "高", "矮", "谁最高？", "谁最矮？", "谁在中间？",
+     [("小熊", "🐻"), ("小兔", "🐰"), ("小鸡", "🐔")]),
+    ("高", "高", "矮", "谁最高？", "谁最矮？", "谁在中间？",
+     [("长颈鹿", "🦒"), ("大象", "🐘"), ("小猴", "🐵")]),
+    ("跑得快", "快", "慢", "谁最快？", "谁最慢？", "谁在中间？",
+     [("小兔", "🐇"), ("乌龟", "🐢"), ("蜗牛", "🐌")]),
+    ("大", "大", "小", "谁最大？", "谁最小？", "谁在中间？",
+     [("大象", "🐘"), ("小猪", "🐷"), ("小鸡", "🐔")]),
+    ("重", "重", "轻", "谁最重？", "谁最轻？", "谁在中间？",
+     [("大象", "🐘"), ("奶牛", "🐮"), ("小猪", "🐷")]),
+    ("跑得快", "快", "慢", "谁最快？", "谁最慢？", "谁在中间？",
+     [("小猫", "🐱"), ("小狗", "🐶"), ("小鸭", "🦆")]),
+]
+ROTATIONS = [(0, 1, 2), (1, 2, 0), (2, 0, 1)]
+QUESTIONS = ["谁最高？", "谁最矮？", "谁在中间？"]
+for gi, (attr, _mw, _mn, qmax, qmin, qmid, animals) in enumerate(INFER_GROUPS):
+    for pi, rot in enumerate(ROTATIONS):
+        A, B, C = (animals[i] for i in rot)
+        for ask, q in enumerate([qmax, qmin, qmid]):
+            sent = f"{A[0]}比{B[0]}{attr}，{B[0]}比{C[0]}{attr}，{q}"
+            add(sent, f"infer_s_{gi}_{pi}_{ask}")
+# 推理揭晓（答案动物名单词预合成）
+INFER_ANIMALS = ["小熊", "小兔", "小鸡", "长颈鹿", "大象", "小猴", "乌龟", "蜗牛", "小猪", "奶牛", "小猫", "小狗", "小鸭"]
+for name in INFER_ANIMALS:
+    add(f"答案是{name}", f"reveal_infer_{name}")
+# 逻辑模块专属表扬
+add("规律被你发现啦！", "praise_logic_pattern")
+add("眼睛真尖！", "praise_logic_odd")
+add("推理小能手！", "praise_logic_infer")
 
 # 猫头鹰吉祥物专属
 add("开始啦，我们一起玩吧！", "owl_start")

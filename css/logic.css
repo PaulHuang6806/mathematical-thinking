@@ -1,0 +1,136 @@
+/* ============================================
+   Mathematical Thinking · 逻辑模块样式
+   找规律（序列格）/ 找不同（物品网格）/ 谁最高（推理）
+   ============================================ */
+
+/* ---------- 找规律：序列格 ---------- */
+.pat-seq {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px auto;
+  max-width: 480px;
+}
+
+.pat-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  font-size: 34px;
+  line-height: 1;
+  background: #fff;
+  border: 3px solid #e0d5f5;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(120, 90, 200, 0.12);
+}
+
+.pat-cell-ask {
+  border-style: dashed;
+  border-color: #b39ddb;
+  background: #f6f2ff;
+  animation: pat-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes pat-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+/* 数字序列的字更小一点（两位数字放得下） */
+.pat-cell[data-num="1"] {
+  font-size: 30px;
+}
+
+.pat-opt {
+  font-size: 30px;
+  min-width: 74px;
+}
+
+/* ---------- 找不同：物品网格（2×2，大按钮） ---------- */
+.odd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  max-width: 360px;
+  margin: 16px auto;
+}
+
+.odd-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 118px;
+  background: #fff;
+  border: 3px solid #d8e8f8;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
+  box-shadow: 0 3px 8px rgba(90, 140, 200, 0.12);
+}
+
+.odd-btn:hover {
+  transform: translateY(-2px);
+  border-color: #8ec5f0;
+}
+
+.odd-btn:active {
+  transform: scale(0.95);
+}
+
+.odd-emoji {
+  font-size: 52px;
+  line-height: 1;
+}
+
+/* 灰色的那个（属性找不同） */
+.odd-btn.odd-gray .odd-emoji {
+  filter: grayscale(1);
+  opacity: 0.85;
+}
+
+/* ---------- 谁最高：条件句 + 动物按钮 ---------- */
+.inf-sentence {
+  max-width: 520px;
+  margin: 20px auto 8px;
+  padding: 16px 20px;
+  font-size: 22px;
+  line-height: 1.6;
+  font-weight: 600;
+  color: #5b3d8f;
+  background: #f6f2ff;
+  border: 2px solid #e0d5f5;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.inf-animal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  margin: 0 8px;
+  background: #fff;
+  border: 3px solid #d8e8f8;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.12s, box-shadow 0.12s;
+  box-shadow: 0 3px 8px rgba(90, 140, 200, 0.12);
+}
+
+.inf-animal-btn:hover {
+  transform: translateY(-2px);
+  border-color: #8ec5f0;
+}
+
+.inf-animal-btn:active {
+  transform: scale(0.94);
+}
+
+.inf-emoji {
+  font-size: 46px;
+  line-height: 1;
+}

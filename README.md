@@ -13,9 +13,13 @@ Mathematical Thinking/
 ├── js/
 │   ├── main.js             # 首页脚本
 │   ├── game-number.js      # 数感游戏（生成器为纯函数，可单测）
+│   ├── game-geometry.js    # 几何游戏
+│   ├── game-logic.js       # 逻辑游戏（找规律/找不同/谁最高）
 │   └── report.js           # 学习报告脚本
 ├── modules/
 │   ├── number-sense.html   # 数感 · 数一数比一比（已完成）
+│   ├── geometry.html       # 几何 · 认图形找图形（已完成）
+│   ├── logic.html          # 逻辑 · 找规律找不同谁最高（已完成）
 │   └── report.html         # 学习报告（家长参与）
 ├── docs/
 │   └── 设计说明-幼儿学习科学.md  # 理论→功能对照设计文档

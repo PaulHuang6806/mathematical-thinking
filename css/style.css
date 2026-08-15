@@ -138,6 +138,15 @@ body {
   box-shadow: 0 10px 28px rgba(79, 110, 247, 0.3);
 }
 
+.btn-ghost {
+  background: #eef1ff;
+  color: var(--color-primary);
+}
+
+.btn-ghost:hover {
+  background: #e0e6ff;
+}
+
 .hero-tip {
   margin-top: 16px;
   font-size: 14px;

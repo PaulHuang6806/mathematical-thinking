@@ -27,6 +27,9 @@
     if (m === 'compare') return '比一比';
     if (m === 'shape') return '认图形';
     if (m === 'find') return '找图形';
+    if (m === 'pattern') return '找规律';
+    if (m === 'odd') return '找不同';
+    if (m === 'infer') return '谁最高';
     return m;
   }
 
@@ -36,6 +39,9 @@
     if (m === 'compare') return '比';
     if (m === 'shape') return '认';
     if (m === 'find') return '找';
+    if (m === 'pattern') return '规';
+    if (m === 'odd') return '异';
+    if (m === 'infer') return '推';
     return m.slice(0, 1);
   }
 
