@@ -439,13 +439,14 @@
     speak(phrase);
     soundCorrect();
     // 猫头鹰按表现分级活动：连对 5+ 飞到屏幕中间撒星星，连对 3+ 飞到中间，其余攒 3 金星角落庆祝
+    let celebrate = false;
     if (global.__mtOwl) {
-      if (state.streak >= 5) global.__mtOwl.flyIn('huge');
-      else if (state.streak >= 3) global.__mtOwl.flyIn('big');
+      if (state.streak >= 5) { global.__mtOwl.flyIn('huge'); celebrate = true; }
+      else if (state.streak >= 3) { global.__mtOwl.flyIn('big'); celebrate = true; }
       else if (state.gold >= 3 && state.gold % 3 === 0) global.__mtOwl.flyIn('cheer');
     }
-
-    setTimeout(advance, 1100);
+    // 连对庆祝时放慢节奏，等猫头鹰扑腾飞完、表扬语音播完再进下一题
+    setTimeout(advance, celebrate ? 2200 : 1100);
   }
 
   function resolveWrong() {

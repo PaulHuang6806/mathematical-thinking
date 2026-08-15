@@ -1,29 +1,17 @@
 /* ============================================
    Mathematical Thinking · 猫头鹰吉祥物样式
+   位置由 owl.js 的 transform 控制（单坐标系），
+   本文件只负责视觉动画（眨眼/扇翅/歪头/星星雨）。
    ============================================ */
 
-/* ---------- 舞台（默认左下角，可滑翔到屏幕中间） ---------- */
+/* ---------- 舞台（锚定视口左上角，实际位置由 transform 决定） ---------- */
 .owl-stage {
   position: fixed;
-  left: 10px;
-  bottom: 10px;
+  left: 0;
+  top: 0;
   z-index: 60;
   pointer-events: none;
-  transition: left 0.7s cubic-bezier(0.3, 0.8, 0.4, 1), bottom 0.7s cubic-bezier(0.3, 0.8, 0.4, 1), transform 0.7s cubic-bezier(0.3, 0.8, 0.4, 1);
-}
-
-/* 飞到屏幕中间（连对庆祝）：位置偏上、尺寸适中，不遮挡下方选项按钮 */
-.owl-center {
-  left: 50%;
-  bottom: 42%;
-  transform: translateX(-50%) scale(1.15);
-}
-
-/* 结算大庆祝：居中偏下大号登场（结算页无交互元素，可以大胆） */
-.owl-center-perfect {
-  left: 50%;
-  bottom: 22%;
-  transform: translateX(-50%) scale(1.45);
+  transition: transform 0.7s cubic-bezier(0.3, 0.8, 0.4, 1); /* idle 回角落时平滑滑回 */
 }
 
 .owl-hidden {
@@ -46,55 +34,7 @@
   95%, 97% { transform: scaleY(0.08); }
 }
 
-/* 飞入：从屏幕左侧滑入，带落地弹跳感 */
-.owl-fly-in {
-  animation: owl-fly-in 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.15);
-}
-
-@keyframes owl-fly-in {
-  0% { transform: translateX(-160px) translateY(30px) rotate(-8deg); opacity: 0; }
-  60% { opacity: 1; }
-  100% { transform: translateX(0) translateY(0) rotate(0); opacity: 1; }
-}
-
-/* 落地弹跳 */
-.owl-bounce {
-  animation: owl-bounce 0.55s ease;
-}
-
-@keyframes owl-bounce {
-  0% { transform: translateY(0); }
-  30% { transform: translateY(-18px); }
-  60% { transform: translateY(0); }
-  80% { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
-}
-
-/* 屏幕中间弹跳（保持居中定位 + 放大比例） */
-.owl-bounce-center {
-  animation: owl-bounce-center 0.55s ease;
-}
-
-@keyframes owl-bounce-center {
-  0%, 100% { transform: translateX(-50%) scale(1.15) translateY(0); }
-  30% { transform: translateX(-50%) scale(1.15) translateY(-22px); }
-  60% { transform: translateX(-50%) scale(1.15) translateY(0); }
-  80% { transform: translateX(-50%) scale(1.15) translateY(-9px); }
-}
-
-/* 结算大版弹跳 */
-.owl-bounce-center-perfect {
-  animation: owl-bounce-center-perfect 0.55s ease;
-}
-
-@keyframes owl-bounce-center-perfect {
-  0%, 100% { transform: translateX(-50%) scale(1.45) translateY(0); }
-  30% { transform: translateX(-50%) scale(1.45) translateY(-30px); }
-  60% { transform: translateX(-50%) scale(1.45) translateY(0); }
-  80% { transform: translateX(-50%) scale(1.45) translateY(-12px); }
-}
-
-/* 扇翅（庆祝时） */
+/* 扇翅（庆祝 / 飞行时） */
 .owl-flap .owl-wing {
   transform-origin: 90px 70px;
   animation: owl-flap 0.35s ease-in-out infinite alternate;
@@ -103,6 +43,12 @@
 .owl-flap .owl-wing-back {
   transform-origin: 24px 66px;
   animation: owl-flap-back 0.35s ease-in-out infinite alternate;
+}
+
+/* 飞行模式：翅膀快速扑腾（放在 .owl-flap 之后以覆盖默认频率） */
+.owl-flying .owl-wing,
+.owl-flying .owl-wing-back {
+  animation-duration: 0.22s;
 }
 
 @keyframes owl-flap {
@@ -131,7 +77,7 @@
   100% { transform: scaleY(0.45); }
 }
 
-/* ---------- 星星雨（全对庆祝） ---------- */
+/* ---------- 星星雨（庆祝用，飘在猫头鹰上方） ---------- */
 .owl-confetti-box {
   position: absolute;
   left: 0;

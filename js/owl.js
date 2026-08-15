@@ -1,12 +1,17 @@
 /* ============================================
    Mathematical Thinking · 猫头鹰吉祥物
-   纯 SVG 手绘 + CSS 动画，零图片零依赖。
+   纯 SVG 手绘 + Web Animations API，零图片零依赖。
+   位置系统：全部由 transform 控制（单坐标系，无 left/bottom 参与，
+   避免 CSS 过渡/动画与定位叠加冲突）。
    时机由游戏 JS 显式调用：
-     flyIn('wave')      开局打招呼（左侧飞入，挥翅膀）
-     flyIn('cheer')     答对庆祝（飞入+落地弹跳+扇翅）
-     flyIn('encourage') 答错陪伴（角落出现，歪头，不打扰）
-     flyIn('perfect')   全对大庆祝（飞入+星星雨+语音）
-     flyIn('end')       结算登场（飞入+弹跳）
+     flyIn('wave')      开局打招呼（从屏幕外飞入左下角，挥翅膀）
+     flyIn('cheer')     答对庆祝（飞入角落+弹跳+扇翅）
+     flyIn('big')       连对 3+：扑腾翅膀波浪轨迹飞向屏幕中间
+     flyIn('huge')      连对 5+：飞向中间 + 撒星星
+     flyIn('perfect')   全对结算：大号飞向中间 + 星星雨
+     flyIn('encourage') 答错陪伴（角落出现，歪头）
+     flyIn('idle')      安静回到左下角（不打扰）
+     flyIn('end')       结算登场
      say(text, delayMs) 延迟后播语音（复用 voice.js 语音包）
    API: window.__mtOwl
    ============================================ */
@@ -60,28 +65,112 @@
   let bird = null;
   let confettiBox = null;
   let speechTimer = null;
+  let flightAnim = null;
+  let animQueue = []; // 依次执行的 WAAPI 动画（飞行→弹跳）
+
+  function round1(n) { return Math.round(n * 10) / 10; }
 
   function ensureStage() {
     if (stage) return;
     stage = document.createElement('div');
     stage.id = 'owl-stage';
     stage.className = 'owl-stage owl-hidden';
+    stage.style.transform = posCorner();
     stage.innerHTML = `<div class="owl-bird">${owlSvg()}</div><div class="owl-confetti-box"></div>`;
     document.body.appendChild(stage);
     bird = stage.querySelector('.owl-bird');
     confettiBox = stage.querySelector('.owl-confetti-box');
   }
 
+  // ===== 位置（transform 单坐标系） =====
+  // 左下角：距左 10px、距底 10px
+  function posCorner() {
+    return `translate(${10}px, ${window.innerHeight - stage.offsetHeight - 10}px)`;
+  }
+  // 屏幕中间偏上（局中庆祝，bottom≈42%，不挡下方选项）；结算大版（bottom≈22%）
+  function posCenter(isPerfect) {
+    const h = stage.offsetHeight;
+    const w = stage.offsetWidth;
+    const top = window.innerHeight * (isPerfect ? 0.78 : 0.58) - h;
+    const left = window.innerWidth / 2 - w / 2;
+    return `translate(${left}px, ${top}px) scale(${isPerfect ? 1.45 : 1.15})`;
+  }
+  // 当前实际位置（rect 还原为 transform）
+  function posNow() {
+    const r = stage.getBoundingClientRect();
+    return `translate(${r.left}px, ${r.top}px)`;
+  }
+
+  // 落地弹跳（WAAPI，在指定位置叠加 translateY）
+  function bounceAt(transformStr, big) {
+    const up1 = big ? -30 : -20;
+    const up2 = big ? -12 : -8;
+    try {
+      stage.animate([
+        { transform: transformStr },
+        { transform: transformStr + ` translateY(${up1}px)` },
+        { transform: transformStr },
+        { transform: transformStr + ` translateY(${up2}px)` },
+        { transform: transformStr },
+      ], { duration: 550, easing: 'ease' });
+    } catch (e) { /* 忽略 */ }
+  }
+
   function clearAnim() {
     if (!bird) return;
+    if (flightAnim) { flightAnim.cancel(); flightAnim = null; }
     bird.className = 'owl-bird';
     stage.classList.remove('owl-fly-in');
-    stage.classList.remove('owl-bounce');
-    stage.classList.remove('owl-bounce-center');
-    stage.classList.remove('owl-bounce-center-perfect');
-    stage.classList.remove('owl-center'); // 从屏幕中间滑回左下角
-    stage.classList.remove('owl-center-perfect');
+    stage.classList.remove('owl-flying');
     stage.classList.remove('owl-hidden');
+  }
+
+  // 从屏幕外飞入左下角（wave / cheer / encourage / end 的角落出场）
+  function flyInCorner() {
+    const to = posCorner();
+    const from = `translate(${-stage.offsetWidth - 60}px, ${window.innerHeight - stage.offsetHeight - 10 + 40}px)`;
+    flightAnim = stage.animate([
+      { transform: from, offset: 0 },
+      { transform: to, offset: 0.72 },
+      { transform: to + ' translateY(-14px)', offset: 0.86 },
+      { transform: to, offset: 1 },
+    ], { duration: 620, easing: 'ease-out' });
+    flightAnim.onfinish = () => {
+      flightAnim = null;
+      stage.style.transform = to;
+      bounceAt(to, false);
+    };
+  }
+
+  // 扑腾翅膀、波浪轨迹飞向屏幕中间（big / huge / perfect）
+  function flyToCenter(isPerfect) {
+    if (!stage) return;
+    if (flightAnim) { flightAnim.cancel(); flightAnim = null; }
+    const target = posCenter(isPerfect);
+    const from = posNow();
+    const amp = isPerfect ? 80 : 60; // 垂直波浪幅度
+    const dur = isPerfect ? 1400 : 1100;
+    stage.classList.add('owl-flying');
+    const frames = [
+      { transform: from, offset: 0 },
+      { transform: target + ` translateY(${-amp}px) rotate(-8deg)`, offset: 0.22 },
+      { transform: target + ` translateY(${amp * 0.7}px) rotate(6deg)`, offset: 0.48 },
+      { transform: target + ` translateY(${-amp * 0.4}px) rotate(-4deg)`, offset: 0.74 },
+      { transform: target, offset: 1 },
+    ];
+    try {
+      flightAnim = stage.animate(frames, { duration: dur, easing: 'cubic-bezier(0.33, 0.5, 0.3, 1)', fill: 'forwards' });
+      flightAnim.onfinish = () => {
+        flightAnim.cancel();
+        flightAnim = null;
+        stage.classList.remove('owl-flying');
+        stage.style.transform = target; // 落位（与动画终值一致，无跳变）
+        bounceAt(target, isPerfect);
+      };
+    } catch (e) {
+      stage.classList.remove('owl-flying');
+      stage.style.transform = target;
+    }
   }
 
   function flyIn(pose) {
@@ -89,37 +178,29 @@
     ensureStage();
     if (speechTimer) { clearTimeout(speechTimer); speechTimer = null; }
     clearAnim();
-    if (pose === 'idle') return; // 安静回到左下角蹲着，不打扰
-    // 挥翅膀 vs 扇翅
+    if (pose === 'idle') {
+      stage.style.transform = posCorner(); // 平滑滑回左下角（transition 生效）
+      return;
+    }
+
     bird.classList.remove('owl-flap');
     if (pose === 'cheer' || pose === 'big' || pose === 'huge' || pose === 'perfect') bird.classList.add('owl-flap');
-    // 歪头（答错陪伴）
     bird.classList.toggle('owl-tilt', pose === 'encourage');
-    stage.classList.add('owl-fly-in');
-    if (pose === 'cheer' || pose === 'end') {
-      setTimeout(() => stage.classList.add('owl-bounce'), 650);
-    }
-    if (pose === 'big' || pose === 'huge' || pose === 'perfect') {
-      // 先飞入角落，再滑翔到屏幕中间（结算用大版，局中用小版避免挡选项）
-      setTimeout(() => flyToCenter(pose === 'perfect'), 480);
-    }
-    if (pose === 'huge' || pose === 'perfect') {
-      setTimeout(() => {
-        confettiBox.innerHTML = confettiHtml(pose === 'perfect' ? 14 : 6);
-      }, 1200); // 到中间后撒星星
-    } else {
-      confettiBox.innerHTML = '';
-    }
-  }
 
-  // 从角落滑翔到屏幕正中间（放大 + 弹跳）
-  function flyToCenter(isPerfect) {
-    if (!stage) return;
-    stage.classList.add(isPerfect ? 'owl-center-perfect' : 'owl-center');
-    setTimeout(() => {
-      stage.classList.add(isPerfect ? 'owl-bounce-center-perfect' : 'owl-bounce-center');
-      setTimeout(() => stage.classList.remove('owl-bounce-center', 'owl-bounce-center-perfect'), 900);
-    }, 700);
+    if (pose === 'big' || pose === 'huge' || pose === 'perfect') {
+      // 扑腾翅膀直接飞向屏幕中间
+      setTimeout(() => flyToCenter(pose === 'perfect'), 120);
+      if (pose === 'huge' || pose === 'perfect') {
+        setTimeout(() => {
+          confettiBox.innerHTML = confettiHtml(pose === 'perfect' ? 14 : 6);
+        }, 1500); // 落地后撒星星
+      }
+      return;
+    }
+
+    // 角落出场
+    stage.classList.remove('owl-hidden');
+    flyInCorner();
   }
 
   function say(text, delayMs) {
