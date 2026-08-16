@@ -32,6 +32,14 @@
     if (m === 'infer') return '谁最高';
     if (m === 'add') return '加法';
     if (m === 'sub') return '减法';
+    if (m === 'clock') return '整点时钟';
+    if (m === 'season') return '一年四季';
+    if (m === 'place') return '上下左右';
+    if (m === 'week') return '星期朋友';
+    if (m === 'dist') return '比远近';
+    if (m === 'grid') return '几排几号';
+    if (m === 'blocks') return '积木几块';
+    if (m === 'month') return '月份朋友';
     return m;
   }
 

@@ -189,6 +189,68 @@ add("算得真清楚！", "praise_calc_3")
 add("没关系，再算一次嘛", "encourage_calc_1")
 add("别急，慢慢算", "encourage_calc_2")
 
+# ============ 时间与空间馆（时钟 / 四季 / 方位 / 星期 / 远近 / 坐标 / 积木 / 月份） ============
+# 整点时钟
+add("小钟表，几点了？", "prompt_ts_clock")
+add("看看时针指到几，就是几点", "hint_ts_clock_1")
+add("短针是时针，它指着几就是几点", "hint_ts_clock_2")
+for n in range(1, 13):
+    add(f"是 {n} 点，我们一起记住它", f"ts_clock_reveal_{n}")
+# 一年四季
+add("这是哪个季节？", "prompt_ts_season")
+add("花儿都开啦，天气暖和和的", "hint_ts_spring")
+add("太阳火辣辣，可以吃西瓜", "hint_ts_summer")
+add("树叶黄了，果子熟啦", "hint_ts_autumn")
+add("好冷呀，会下雪", "hint_ts_winter")
+add("看看图片里的东西，是哪个季节才有的", "hint_ts_season_2")
+for name in ["春天", "夏天", "秋天", "冬天"]:
+    add(name, f"ts_season_{name}")
+    add(f"是{name}，我们一起记住它", f"ts_season_reveal_{name}")
+# 空间方位
+add("小鸟在树的哪里？", "prompt_ts_place_top")
+add("小乌龟在树的哪里？", "prompt_ts_place_bottom")
+add("小兔在树的哪里？", "prompt_ts_place_front")
+add("小狐狸在树的哪里？", "prompt_ts_place_back")
+add("小狗在女孩的哪边？", "prompt_ts_place_left")
+add("小猫在女孩的哪边？", "prompt_ts_place_right")
+add("想一想，它在大树的哪个方向", "hint_ts_place_1")
+add("看看它和大树的位置", "hint_ts_place_2")
+add("伸出右手比一比，哪边是右边", "hint_ts_place_lr_1")
+add("女孩的左手边是哪边？想一想", "hint_ts_place_lr_2")
+add("真棒，方向找对啦！", "reveal_ts_place")
+# 星期
+add("明天是星期几？", "prompt_ts_week_tomorrow")
+add("昨天是星期几？", "prompt_ts_week_yesterday")
+add("后天是星期几？", "prompt_ts_week_dayafter")
+add("前天是星期几？", "prompt_ts_week_daybefore")
+add("想一想，今天后面是星期几", "hint_ts_week_1")
+add("星期一到星期天，按顺序数一数", "hint_ts_week_2")
+for name in ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]:
+    add(name, f"ts_week_{name}")
+    add(f"是{name}，我们一起记住它", f"ts_week_reveal_{name}")
+# 比远近
+add("谁离房子最近？", "prompt_ts_dist_near")
+add("谁离房子最远？", "prompt_ts_dist_far")
+add("看看谁离房子最近", "hint_ts_dist_near")
+add("看看谁离房子最远", "hint_ts_dist_far")
+add("从房子往外数一数，第一个是谁", "hint_ts_dist_2")
+add("真棒！", "reveal_ts_dist")
+# 几排几号
+add("几排几号，找一找！", "prompt_ts_grid")
+add("横着数是排，竖着数是号", "hint_ts_grid_1")
+add("先找第几排，再看第几个", "hint_ts_grid_2")
+# 积木几块
+add("一共有几个正方体？", "prompt_ts_blocks")
+add("一层一层数，别忘了上面的", "hint_ts_blocks_1")
+add("先数最下面一层，再往上数", "hint_ts_blocks_2")
+# 月份
+add("想一想，是几月？", "prompt_ts_month")
+add("按顺序数一数月份", "hint_ts_month_1")
+add("一月二月三月…接着往下数", "hint_ts_month_2")
+for name in ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]:
+    add(name, f"ts_month_{name}")
+    add(f"是{name}，我们一起记住它", f"ts_month_reveal_{name}")
+
 TOTAL = len(VOICES)
 print(f"共 {TOTAL} 条语音，音色 {VOICE} rate={RATE} pitch={PITCH}")
 

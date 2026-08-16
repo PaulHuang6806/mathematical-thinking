@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>时间与空间 · 时钟方位 — Mathematical Thinking</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/game.css">
+  <link rel="stylesheet" href="../css/time-space.css?v=1">
+  <link rel="stylesheet" href="../css/owl.css?v=2">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-logo">∑</span>
+        <span class="brand-name">时间与空间 · 时钟方位</span>
+      </div>
+      <nav class="main-nav">
+        <a href="../index.html">← 返回首页</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container game-wrap">
+    <!-- 模式选择 -->
+    <section id="screen-start" class="screen">
+      <h1 class="section-title">选择玩法</h1>
+      <p class="mode-hint">每局 10 题，慢慢想，答对得星星 ⭐</p>
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="clock">
+          <span class="mode-icon">🕐</span>
+          <span class="mode-name">整点时钟</span>
+          <span class="mode-desc">小钟表，几点了？</span>
+        </button>
+        <button class="mode-card" data-mode="season">
+          <span class="mode-icon">🌳</span>
+          <span class="mode-name">一年四季</span>
+          <span class="mode-desc">看看图片，是哪个季节？</span>
+        </button>
+        <button class="mode-card" data-mode="place">
+          <span class="mode-icon">🧭</span>
+          <span class="mode-name">上下左右</span>
+          <span class="mode-desc">它在哪个方向？</span>
+        </button>
+        <button class="mode-card" data-mode="week">
+          <span class="mode-icon">📅</span>
+          <span class="mode-name">星期朋友</span>
+          <span class="mode-desc">昨天、明天星期几？</span>
+        </button>
+        <button class="mode-card" data-mode="dist">
+          <span class="mode-icon">🏠</span>
+          <span class="mode-name">比远近</span>
+          <span class="mode-desc">谁离房子最近？</span>
+        </button>
+        <button class="mode-card" data-mode="grid">
+          <span class="mode-icon">🗺️</span>
+          <span class="mode-name">几排几号</span>
+          <span class="mode-desc">找一找第几排第几个</span>
+        </button>
+        <button class="mode-card" data-mode="blocks">
+          <span class="mode-icon">🧱</span>
+          <span class="mode-name">积木几块</span>
+          <span class="mode-desc">一共有几个正方体？</span>
+        </button>
+        <button class="mode-card" data-mode="month">
+          <span class="mode-icon">🗓️</span>
+          <span class="mode-name">月份朋友</span>
+          <span class="mode-desc">一月到十二月</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 游戏 -->
+    <section id="screen-game" class="screen" style="display:none">
+      <div class="game-top">
+        <span id="mode-title" class="game-mode"></span>
+        <span id="round-info">第 1 / 10 题</span>
+        <span id="score-info">⭐ 0</span>
+        <button id="btn-sound" type="button" title="声音开关">🔊</button>
+      </div>
+      <div class="progress"><div id="progress-fill"></div></div>
+      <p id="q-prompt" class="q-prompt"></p>
+      <div id="question-area"></div>
+      <p id="hint" class="hint"></p>
+      <div id="options" class="options"></div>
+      <p id="feedback" class="feedback"></p>
+    </section>
+
+    <!-- 结算 -->
+    <section id="screen-end" class="screen" style="display:none">
+      <h2 class="section-title">本轮完成！</h2>
+      <p id="end-stars" class="end-stars"></p>
+      <p id="end-msg" class="end-msg"></p>
+      <p id="end-time" class="mode-hint"></p>
+      <div class="end-actions">
+        <button id="btn-again" class="btn btn-primary">再玩一次</button>
+        <button id="btn-menu" class="btn btn-ghost">换个玩法</button>
+        <a class="btn btn-ghost" href="report.html">看学习报告</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/voice-data.js?v=3" async></script>
+  <script src="../js/voice.js?v=2" defer></script>
+  <script src="../js/owl.js?v=2" defer></script>
+  <script src="../js/game-time.js?v=1" defer></script>
+</body>
+</html>

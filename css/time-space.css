@@ -1,0 +1,247 @@
+/* ============================================
+   Mathematical Thinking · 时间与空间馆样式
+   时钟 / 四季 / 方位 / 星期 / 远近 / 坐标 / 积木 / 月份
+   ============================================ */
+
+/* 钟面 */
+.ts-clock {
+  display: block;
+  margin: 6px auto;
+}
+
+/* 四季场景 */
+.ts-season-scene {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  font-size: 3.4rem;
+  margin: 12px 0;
+}
+
+.ts-season-emoji {
+  display: inline-block;
+  animation: ts-bounce 2.4s ease-in-out infinite;
+}
+
+.ts-season-emoji:nth-child(2) { animation-delay: 0.4s; }
+.ts-season-emoji:nth-child(3) { animation-delay: 0.8s; }
+
+@keyframes ts-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* 方位场景 */
+.ts-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  margin: 8px 0;
+}
+
+.ts-tree-mid {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 3.2rem;
+}
+
+.ts-tree {
+  font-size: 4.2rem;
+  line-height: 1;
+}
+
+.ts-tree-top, .ts-tree-bottom {
+  font-size: 3.2rem;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+}
+
+.ts-place-item {
+  font-size: 3.2rem;
+  display: inline-block;
+}
+
+.ts-scene-lr {
+  flex-direction: row;
+  gap: 26px;
+  font-size: 3.2rem;
+}
+
+.ts-girl {
+  font-size: 4.2rem;
+}
+
+.ts-lr-label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #999;
+}
+
+/* 星期 */
+.ts-week-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.ts-week-cell {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 74px;
+  padding: 8px 4px;
+  background: #fff8ec;
+  border: 2px solid #ffd9a0;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #8a6d3b;
+}
+
+.ts-week-today {
+  background: #ffb84d;
+  border-color: #ff8a3d;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(255, 138, 61, 0.35);
+}
+
+/* 比远近 */
+.ts-dist {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 30px;
+  margin: 14px 0;
+  padding: 10px 16px;
+  background: #f0f9ff;
+  border-radius: 16px;
+}
+
+.ts-house {
+  font-size: 3rem;
+}
+
+.ts-dist-animal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ts-dist-pos-0 { transform: translateY(-6px); }
+.ts-dist-pos-1 { transform: translateY(2px); }
+.ts-dist-pos-2 { transform: translateY(10px); }
+
+.ts-dist-emoji {
+  font-size: 2.4rem;
+  line-height: 1.2;
+}
+
+.ts-dist-name {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* 几排几号 */
+.ts-grid-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.ts-grid-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ts-grid-rowlabel {
+  font-size: 0.85rem;
+  color: #888;
+  line-height: 46px;
+  height: 46px;
+}
+
+.ts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 46px);
+  gap: 6px;
+}
+
+.ts-grid-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  background: #fff;
+  border: 2px solid #bfe3ff;
+  border-radius: 10px;
+  font-size: 1.7rem;
+}
+
+/* 积木堆叠 */
+.ts-blocks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 10px 0;
+}
+
+.ts-block-layer {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.ts-block {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+/* 月份 */
+.ts-month-ring {
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  gap: 8px;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.ts-month-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  background: #fff8ec;
+  border: 2px solid #ffd9a0;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #8a6d3b;
+}
+
+/* 通用选项微调 */
+.ts-opt {
+  min-width: 88px;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* 窄屏适配 */
+@media (max-width: 520px) {
+  .ts-week-cell { width: 58px; font-size: 0.85rem; }
+  .ts-grid-cell { width: 40px; height: 40px; font-size: 1.4rem; }
+  .ts-grid-rowlabel { line-height: 40px; height: 40px; font-size: 0.75rem; }
+  .ts-month-ring { grid-template-columns: repeat(4, auto); }
+  .ts-dist { gap: 18px; }
+  .ts-opt { min-width: 72px; font-size: 1.2rem; }
+}
