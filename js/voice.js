@@ -7,8 +7,8 @@
 (function (global) {
   'use strict';
 
-  const DATA = global.__VOICE_DATA__ || {};
-
+  // 注意：__VOICE_DATA__ 可能后于本脚本加载（voice-data.js 为 async），
+  // 因此每次 play 时实时读取，数据就绪前自动回退 Web Speech。
   let soundOn = true;
   try { soundOn = localStorage.getItem('mt_sound') !== '0'; } catch (e) { /* 忽略 */ }
 
@@ -50,6 +50,7 @@
   // ---------- 主入口 ----------
   function play(text, rate) {
     if (!soundOn || !text) return;
+    const DATA = global.__VOICE_DATA__ || {};
     const uri = DATA[text];
     if (uri) {
       try {
