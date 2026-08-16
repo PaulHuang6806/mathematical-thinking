@@ -9,6 +9,7 @@ Mathematical Thinking · 语音包生成器
 import asyncio
 import base64
 import os
+import subprocess
 import sys
 
 import edge_tts
@@ -16,6 +17,11 @@ import edge_tts
 VOICE = "zh-CN-XiaoyiNeural"   # 晓伊：明亮活泼的女声，适合儿童内容
 RATE = "+8%"                   # 稍快，活泼
 PITCH = "+40Hz"                # 音调上调，更可爱
+# 低码率压缩：16kbps mono 22050Hz（约 36% 体积），保证 voice-data.js 足够小，
+# 移动网络可快速加载（历史教训：48kbps 时 voice-data.js 5.87MB，国内网络下载挂起导致页面点击无反应）
+BITRATE = "16k"
+SAMPLE_RATE = 22050
+SIZE_THRESHOLD = 10000  # 高于此字节数视为未压缩的高码率文件，需转码
 
 OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio")
 DATA_JS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "js", "voice-data.js")
@@ -201,12 +207,58 @@ async def synth_one(text, out_path, retries=3):
     return False, getattr(last, "strerror", str(last))  # type: ignore[name-defined]  # noqa: F821
 
 
+def is_low_bitrate(path):
+    """用 ffprobe 探测实际码率（≤20kbps 视为已压缩）。长句子低码率文件也可能 >10KB，不能只看大小。"""
+    try:
+        r = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "a:0",
+             "-show_entries", "stream=bit_rate",
+             "-of", "default=noprint_wrappers=1:nokey=1", path],
+            capture_output=True, timeout=30, text=True,
+        )
+        rate = int((r.stdout or "").strip() or 0)
+        return rate > 0 and rate <= 20000
+    except Exception:  # noqa: BLE001
+        return False  # 探测失败按高码率处理（转码无副作用）
+
+
+def ensure_low_bitrate(name):
+    """把 mp3 统一压到低码率（16kbps mono 22050Hz）。
+
+    高码率（edge-tts 默认 48kbps）的 voice-data.js 会超过 5MB，
+    移动网络下载挂起会阻塞游戏初始化（历史事故，见 git log 87e023f）。
+    小文件直接判低码率；大文件（含长句子的低码率文件）用 ffprobe 精确判断。
+    """
+    path = os.path.join(OUT_DIR, name + ".mp3")
+    if not os.path.exists(path):
+        return False
+    if os.path.getsize(path) <= SIZE_THRESHOLD or is_low_bitrate(path):
+        return True  # 已是低码率
+    tmp = path + ".tmp.mp3"
+    try:
+        r = subprocess.run(
+            ["ffmpeg", "-y", "-loglevel", "error", "-i", path,
+             "-ac", "1", "-ar", str(SAMPLE_RATE), "-b:a", BITRATE, tmp],
+            capture_output=True, timeout=60,
+        )
+        if r.returncode != 0 or not os.path.exists(tmp):
+            print(f"  ! 转码失败 {name}: {r.stderr.decode(errors='ignore')[:120]}")
+            return False
+        os.replace(tmp, path)
+        print(f"  → 已压缩 {name}.mp3 ({os.path.getsize(path)}B)")
+        return True
+    except Exception as e:  # noqa: BLE001
+        print(f"  ! 转码异常 {name}: {e}")
+        return False
+
+
 async def main():
     os.makedirs(OUT_DIR, exist_ok=True)
     results = []
     ok = fail = 0
     for idx, (text, name) in enumerate(VOICES, 1):
         path = os.path.join(OUT_DIR, name + ".mp3")
+        ensure_low_bitrate(name)  # 存量文件统一低码率（幂等；已低码率立即返回）
         if os.path.exists(path) and os.path.getsize(path) > 300:
             results.append((text, name, os.path.getsize(path)))
             ok += 1
@@ -214,9 +266,11 @@ async def main():
             continue
         good, info = await synth_one(text, path)
         if good:
-            results.append((text, name, info))
+            ensure_low_bitrate(name)  # 新合成的是高码率，立即压缩
+            size = os.path.getsize(path)
+            results.append((text, name, size))
             ok += 1
-            print(f"[{idx}/{TOTAL}] OK {name}.mp3 ({info}B)")
+            print(f"[{idx}/{TOTAL}] OK {name}.mp3 ({size}B)")
         else:
             fail += 1
             print(f"[{idx}/{TOTAL}] FAIL {name}: {info}")
