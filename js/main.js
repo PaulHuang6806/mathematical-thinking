@@ -13,7 +13,7 @@
       { id: 'number', title: '数感', status: 'live', url: 'modules/number-sense.html' },
       { id: 'geometry', title: '几何', status: 'live', url: 'modules/geometry.html' },
       { id: 'logic', title: '逻辑', status: 'live', url: 'modules/logic.html' },
-      { id: 'calc', title: '计算', status: 'coming', url: null },
+      { id: 'calc', title: '计算', status: 'live', url: 'modules/calc.html' },
     ],
   };
 

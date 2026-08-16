@@ -79,7 +79,7 @@ add("别急，慢慢看", "encourage_geo_2")
 add("再数一次，比比看", "hint_compare")
 for n in range(1, 19):
     add(str(n), f"num_{n}")
-for n in range(1, 13):
+for n in range(1, 16):
     add(f"是 {n} 个，我们一起记住它", f"reveal_count_{n}")
 for n in range(1, 19):
     add(f"答案是 {n}，记住它的样子", f"reveal_cmp_{n}")
@@ -163,6 +163,25 @@ add("推理小能手！", "praise_logic_infer")
 add("开始啦，我们一起玩吧！", "owl_start")
 add("哇，太厉害啦！", "owl_perfect")
 add("再来一局吧！", "owl_end")
+
+# ============ 计算模块（加法 / 减法） ============
+# 题干
+add("一共有几个？", "prompt_add")
+add("还剩几个？", "prompt_sub")
+# 提示（第 1 / 2 次答错）
+add("把它们合起来，一起数一数", "hint_add_1")
+add("从大的那边开始，接着往后数", "hint_add_2")
+add("数一数，没被划掉的还有几个", "hint_sub_1")
+add("划掉的不要数，只数剩下的", "hint_sub_2")
+# 揭晓：减法"还剩 X 个"（1..15 全预合成；加法"是 X 个"13..15 已在上方扩充）
+for n in range(1, 16):
+    add(f"还剩 {n} 个，我们一起记住它", f"reveal_sub_{n}")
+# 计算模块专属表扬 / 鼓励
+add("算得又快又准！", "praise_calc_1")
+add("口算小达人！", "praise_calc_2")
+add("算得真清楚！", "praise_calc_3")
+add("没关系，再算一次嘛", "encourage_calc_1")
+add("别急，慢慢算", "encourage_calc_2")
 
 TOTAL = len(VOICES)
 print(f"共 {TOTAL} 条语音，音色 {VOICE} rate={RATE} pitch={PITCH}")

@@ -30,6 +30,8 @@
     if (m === 'pattern') return '找规律';
     if (m === 'odd') return '找不同';
     if (m === 'infer') return '谁最高';
+    if (m === 'add') return '加法';
+    if (m === 'sub') return '减法';
     return m;
   }
 
