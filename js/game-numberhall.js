@@ -173,6 +173,7 @@
       promptVoice: '按群数一数，一共有几个？',
       hint1: groupSize + ' 个一组，数一数有几组',
       hint2: '一组 ' + groupSize + ' 个，' + groups + ' 组就是 ' + groupSize + '、' + (groupSize * 2) + '…',
+      hint2Voice: '一组一组接着数',
       reveal: '一共有 ' + total + ' 个，按群数真快！',
       revealVoice: '一共有 ' + total + ' 个，真棒！',
     };
@@ -257,6 +258,7 @@
       prompt: emoji + ' + ' + emoji + ' = ' + double + '，' + emoji + ' = 几？',
       promptVoice: '想一想，它等于几？',
       hint1: '两个一样的合起来是 ' + double,
+      hint1Voice: '两个一样的合起来是几',
       hint2: '把它分成两份，每份是几',
       reveal: emoji + ' = ' + val + '，两个合起来正好是 ' + double + '！',
       revealVoice: '真棒！',

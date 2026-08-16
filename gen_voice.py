@@ -320,21 +320,27 @@ add("双数，真棒！", "reveal_nh_even")
 add("还需要几个，凑成 10？", "prompt_nh_maketen")
 add("看看十格阵，空着几格", "hint_nh_maketen_1")
 add("一格一格数空着的格子", "hint_nh_maketen_2")
-for n in range(3, 10):
+for n in range(1, 8):
     add(f"再放 {n} 个，就是 10 个啦！", f"reveal_nh_maketen_{n}")
 # 群数
 add("按群数一数，一共有几个？", "prompt_nh_group")
 add("5 个一组，数一数有几组", "hint_nh_group_5")
 add("10 个一组，数一数有几组", "hint_nh_group_10")
 add("一组一组接着数", "hint_nh_group_2")
+for total in [10, 15, 20, 30]:
+    add(f"一共有 {total} 个，真棒！", f"reveal_nh_group_{total}")
 # 人民币
 add("一共多少钱？", "prompt_nh_money")
 add("把纸币加起来数一数", "hint_nh_money_1")
 add("10 元、5 元、1 元，加在一起", "hint_nh_money_2")
+for yuan in range(3, 21):
+    add(f"一共 {yuan} 元，真棒！", f"reveal_nh_money_{yuan}")
 # 缺了几
 add("缺了哪个数字？", "prompt_nh_missing")
 add("按顺序数一数", "hint_nh_missing_1")
 add("看看哪一行断开了", "hint_nh_missing_2")
+for v in range(1, 19):
+    add(f"缺了 {v}，真棒！", f"reveal_nh_missing_{v}")
 # 代数推理
 add("想一想，它等于几？", "prompt_nh_algebra")
 add("两个一样的合起来是几", "hint_nh_algebra_1")
@@ -366,14 +372,23 @@ add("它不是梯形，真棒！", "reveal_sh_classify")
 add("小三角形里有几个水果？", "prompt_sh_include")
 add("数一数，小三角形里面的", "hint_sh_include_1")
 add("只看小三角形里面的，外面的不算", "hint_sh_include_2")
+for n in range(2, 7):
+    add(f"有 {n} 个，真棒！", f"reveal_sh_include_{n}")
 # 拼合计数
 add("用了几块三角形？", "prompt_sh_puzzle")
 add("数一数，三角形有几块", "hint_sh_puzzle_1")
 add("拼在一起，一块一块数", "hint_sh_puzzle_2")
+for n in range(2, 6):
+    add(f"用了 {n} 块，真棒！", f"reveal_sh_puzzle_{n}")
 # 填红方块
 add("红色方块该填在哪里？", "prompt_sh_redgrid")
 add("看看红色方块的规律", "hint_sh_redgrid_1")
 add("一排比一排多，找一找", "hint_sh_redgrid_2")
+
+# ============ 语音修复（2026-08-16 全量穷举发现） ============
+add("先找排，再找号", "hint_ts_grid_2v")
+add("从上往下数第几排，从左往右数第几号", "hint_ts_grid_2r")
+add("1 个圆蛋糕等于几块方蛋糕？", "prompt_ms_cake_1")
 
 TOTAL = len(VOICES)
 print(f"共 {TOTAL} 条语音，音色 {VOICE} rate={RATE} pitch={PITCH}")
