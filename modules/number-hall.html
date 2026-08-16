@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数与运算 · 邻居奇偶凑十 — Mathematical Thinking</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/game.css">
+  <link rel="stylesheet" href="../css/numberhall.css?v=1">
+  <link rel="stylesheet" href="../css/owl.css?v=2">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-logo">∑</span>
+        <span class="brand-name">数与运算 · 进阶</span>
+      </div>
+      <nav class="main-nav">
+        <a href="../index.html">← 返回首页</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container game-wrap">
+    <!-- 模式选择 -->
+    <section id="screen-start" class="screen">
+      <h1 class="section-title">选择玩法</h1>
+      <p class="mode-hint">每局 10 题，慢慢想，答对得星星 ⭐</p>
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="neighbor">
+          <span class="mode-icon">🤝</span>
+          <span class="mode-name">相邻数</span>
+          <span class="mode-desc">6 的邻居是 5 和 7</span>
+        </button>
+        <button class="mode-card" data-mode="oddEven">
+          <span class="mode-icon">👯</span>
+          <span class="mode-name">单数双数</span>
+          <span class="mode-desc">配成对的是双数</span>
+        </button>
+        <button class="mode-card" data-mode="makeTen">
+          <span class="mode-icon">🧮</span>
+          <span class="mode-name">凑成 10</span>
+          <span class="mode-desc">十格阵，还差几个？</span>
+        </button>
+        <button class="mode-card" data-mode="groupCount">
+          <span class="mode-icon">👨‍👩‍👧</span>
+          <span class="mode-name">按群数</span>
+          <span class="mode-desc">5 个一组，数得快</span>
+        </button>
+        <button class="mode-card" data-mode="money">
+          <span class="mode-icon">💰</span>
+          <span class="mode-name">认识人民币</span>
+          <span class="mode-desc">纸币加起来多少钱</span>
+        </button>
+        <button class="mode-card" data-mode="missing">
+          <span class="mode-icon">🔎</span>
+          <span class="mode-name">缺了几</span>
+          <span class="mode-desc">按顺序，找缺口</span>
+        </button>
+        <button class="mode-card" data-mode="algebra">
+          <span class="mode-icon">🍎</span>
+          <span class="mode-name">代数推理</span>
+          <span class="mode-desc">🍎+🍎=6，🍎是几？</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 游戏 -->
+    <section id="screen-game" class="screen" style="display:none">
+      <div class="game-top">
+        <span id="mode-title" class="game-mode"></span>
+        <span id="round-info">第 1 / 10 题</span>
+        <span id="score-info">⭐ 0</span>
+        <button id="btn-sound" type="button" title="声音开关">🔊</button>
+      </div>
+      <div class="progress"><div id="progress-fill"></div></div>
+      <p id="q-prompt" class="q-prompt"></p>
+      <div id="question-area"></div>
+      <p id="hint" class="hint"></p>
+      <div id="options" class="options"></div>
+      <p id="feedback" class="feedback"></p>
+    </section>
+
+    <!-- 结算 -->
+    <section id="screen-end" class="screen" style="display:none">
+      <h2 class="section-title">本轮完成！</h2>
+      <p id="end-stars" class="end-stars"></p>
+      <p id="end-msg" class="end-msg"></p>
+      <p id="end-time" class="mode-hint"></p>
+      <div class="end-actions">
+        <button id="btn-again" class="btn btn-primary">再玩一次</button>
+        <button id="btn-menu" class="btn btn-ghost">换个玩法</button>
+        <a class="btn btn-ghost" href="report.html">看学习报告</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/voice-data.js?v=3" async></script>
+  <script src="../js/voice.js?v=2" defer></script>
+  <script src="../js/owl.js?v=2" defer></script>
+  <script src="../js/game-numberhall.js?v=1" defer></script>
+</body>
+</html>

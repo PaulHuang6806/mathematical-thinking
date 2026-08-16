@@ -48,6 +48,19 @@
     if (m === 'scale') return '天平推理';
     if (m === 'water') return '水杯守恒';
     if (m === 'cake') return '蛋糕推理';
+    if (m === 'neighbor') return '相邻数';
+    if (m === 'oddEven') return '单数双数';
+    if (m === 'makeTen') return '凑成 10';
+    if (m === 'groupCount') return '按群数';
+    if (m === 'money') return '认识人民币';
+    if (m === 'missing') return '缺了几';
+    if (m === 'algebra') return '代数推理';
+    if (m === 'solid') return '立体图形';
+    if (m === 'equal') return '等分';
+    if (m === 'classify') return '谁是梯形';
+    if (m === 'include') return '三角水果';
+    if (m === 'puzzle') return '拼合计数';
+    if (m === 'redGrid') return '填红方块';
     return m;
   }
 

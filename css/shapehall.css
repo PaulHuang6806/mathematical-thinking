@@ -1,0 +1,170 @@
+/* ============================================
+   Mathematical Thinking · 形与集合馆样式
+   立体图形 / 等分 / 梯形分类 / 三角水果 / 拼合 / 填红方块
+   ============================================ */
+
+/* 立体图形 */
+.sh-solid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.sh-solid-emoji {
+  font-size: 6rem;
+  line-height: 1.1;
+}
+
+.sh-solid-name {
+  font-size: 1.2rem;
+  color: #999;
+  margin-top: 4px;
+}
+
+/* 等分 */
+.sh-equal {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+/* 梯形分类 */
+.sh-quads {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 520px;
+  margin: 12px auto;
+}
+
+.sh-quad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 6px;
+  background: #fff;
+  border: 2px solid #bfe3ff;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.sh-quad:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(74, 144, 217, 0.25);
+}
+
+.sh-quad-label {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 6px;
+}
+
+/* 集合包含（CSS 三角形） */
+.sh-include {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.sh-big-tri {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 200px solid #fff8ec;
+}
+
+.sh-mid-tri {
+  position: absolute;
+  top: 85px;
+  left: -70px;
+  width: 0;
+  height: 0;
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 115px solid #fff3d6;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sh-fruits {
+  position: absolute;
+  top: 45px;
+  left: -45px;
+  width: 90px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+/* 拼合 */
+.sh-puzzle {
+  display: flex;
+  justify-content: center;
+  margin: 14px 0;
+}
+
+.sh-pz-arrow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 420px;
+  padding: 12px 16px;
+  background: #f0f9ff;
+  border: 2px solid #bfe3ff;
+  border-radius: 16px;
+}
+
+.sh-pz-tri { font-size: 2rem; line-height: 1; }
+.sh-pz-sq { font-size: 2rem; line-height: 1; }
+
+/* 填红方块 */
+.sh-red-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  gap: 8px;
+  justify-content: center;
+  margin: 14px auto;
+}
+
+.sh-red-cell {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+}
+
+.sh-red-on {
+  background: #e5484d;
+  border-color: #c93a3f;
+}
+
+.sh-red-ask {
+  background: #fff3e0;
+  border: 3px dashed #ff8a3d;
+}
+
+/* 选项 */
+.sh-opt {
+  min-width: 88px;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+/* 窄屏 */
+@media (max-width: 520px) {
+  .sh-quads { gap: 6px; }
+  .sh-red-grid { grid-template-columns: repeat(3, 52px); }
+  .sh-red-cell { width: 52px; height: 52px; }
+  .sh-opt { min-width: 72px; font-size: 1.15rem; }
+}

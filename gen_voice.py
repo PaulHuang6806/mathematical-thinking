@@ -303,6 +303,78 @@ add("一个圆蛋糕等于几块方蛋糕？", "prompt_ms_cake")
 add("想想蛋糕能换几个", "hint_ms_cake_1")
 add("数一数，换一换", "hint_ms_cake_2")
 
+# ============ 数与运算馆（相邻数 / 单双数 / 凑十 / 群数 / 人民币 / 缺了几 / 代数） ============
+# 相邻数
+add("想一想，它的邻居是几？", "prompt_nh_neighbor")
+add("比它小 1 的是前面的邻居", "hint_nh_neighbor_1")
+add("按顺序数一数，它旁边是谁", "hint_nh_neighbor_2")
+# 单数双数
+add("是单数还是双数？", "prompt_nh_oddeven")
+add("两个两个配成对，配得完的是双数", "hint_nh_oddeven_1")
+add("剩下一个，孤零零的是单数", "hint_nh_oddeven_2")
+add("单数", "nh_odd")
+add("双数", "nh_even")
+add("单数，真棒！", "reveal_nh_odd")
+add("双数，真棒！", "reveal_nh_even")
+# 凑十
+add("还需要几个，凑成 10？", "prompt_nh_maketen")
+add("看看十格阵，空着几格", "hint_nh_maketen_1")
+add("一格一格数空着的格子", "hint_nh_maketen_2")
+for n in range(3, 10):
+    add(f"再放 {n} 个，就是 10 个啦！", f"reveal_nh_maketen_{n}")
+# 群数
+add("按群数一数，一共有几个？", "prompt_nh_group")
+add("5 个一组，数一数有几组", "hint_nh_group_5")
+add("10 个一组，数一数有几组", "hint_nh_group_10")
+add("一组一组接着数", "hint_nh_group_2")
+# 人民币
+add("一共多少钱？", "prompt_nh_money")
+add("把纸币加起来数一数", "hint_nh_money_1")
+add("10 元、5 元、1 元，加在一起", "hint_nh_money_2")
+# 缺了几
+add("缺了哪个数字？", "prompt_nh_missing")
+add("按顺序数一数", "hint_nh_missing_1")
+add("看看哪一行断开了", "hint_nh_missing_2")
+# 代数推理
+add("想一想，它等于几？", "prompt_nh_algebra")
+add("两个一样的合起来是几", "hint_nh_algebra_1")
+add("把它分成两份，每份是几", "hint_nh_algebra_2")
+
+# ============ 形与集合馆（立体图形 / 等分 / 梯形 / 集合 / 拼合 / 填红方块） ============
+# 立体图形
+add("这是什么立体图形？", "prompt_sh_solid")
+add("圆圆的，会滚来滚去", "hint_sh_solid_1")
+add("方方正正的，六个面", "hint_sh_solid_2")
+add("像柱子一样，上下一样粗", "hint_sh_solid_3")
+add("尖尖的，像小帐篷", "hint_sh_solid_4")
+add("摸摸它的样子，想一想", "hint_sh_solid_5")
+for name in ["球体", "正方体", "圆柱体", "圆锥体"]:
+    add(name, f"sh_solid_{name}")
+    add(f"这是{name}，我们一起记住它", f"sh_solid_reveal_{name}")
+# 等分
+add("分成了几份？", "prompt_sh_equal")
+add("数一数，有几份", "hint_sh_equal_1")
+add("每份一样多，是平均分", "hint_sh_equal_2")
+for n in [2, 3, 4]:
+    add(f"分成了 {n} 份，真棒！", f"sh_equal_reveal_{n}")
+# 梯形分类
+add("哪个不是梯形？", "prompt_sh_classify")
+add("找找哪一个不一样", "hint_sh_classify_1")
+add("梯形有两条平平的边", "hint_sh_classify_2")
+add("它不是梯形，真棒！", "reveal_sh_classify")
+# 集合包含
+add("小三角形里有几个水果？", "prompt_sh_include")
+add("数一数，小三角形里面的", "hint_sh_include_1")
+add("只看小三角形里面的，外面的不算", "hint_sh_include_2")
+# 拼合计数
+add("用了几块三角形？", "prompt_sh_puzzle")
+add("数一数，三角形有几块", "hint_sh_puzzle_1")
+add("拼在一起，一块一块数", "hint_sh_puzzle_2")
+# 填红方块
+add("红色方块该填在哪里？", "prompt_sh_redgrid")
+add("看看红色方块的规律", "hint_sh_redgrid_1")
+add("一排比一排多，找一找", "hint_sh_redgrid_2")
+
 TOTAL = len(VOICES)
 print(f"共 {TOTAL} 条语音，音色 {VOICE} rate={RATE} pitch={PITCH}")
 

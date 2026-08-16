@@ -1,0 +1,194 @@
+/* ============================================
+   Mathematical Thinking · 数与运算馆样式
+   相邻数 / 单双数 / 十格阵凑十 / 群数 / 人民币 / 缺了几 / 代数
+   ============================================ */
+
+/* 大数字（相邻数/单双数） */
+.nh-bignum {
+  font-size: 5rem;
+  font-weight: 800;
+  color: #ff8a3d;
+  text-align: center;
+  margin: 8px 0 2px;
+  line-height: 1.1;
+}
+
+/* 圆点（单双数配对辅助） */
+.nh-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 420px;
+  margin: 4px auto;
+}
+
+.nh-dot {
+  font-size: 1.8rem;
+  color: #4a90d9;
+  line-height: 1;
+}
+
+/* 十格阵 */
+.nh-frame {
+  display: grid;
+  grid-template-columns: repeat(5, 52px);
+  gap: 6px;
+  justify-content: center;
+  margin: 12px auto;
+  padding: 12px;
+  background: #fff8ec;
+  border: 3px dashed #ffd9a0;
+  border-radius: 16px;
+  width: fit-content;
+}
+
+.nh-cell {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+}
+
+.nh-filled {
+  background: #ffb84d;
+  border-color: #ff8a3d;
+}
+
+/* 群数 */
+.nh-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.nh-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #f0f9ff;
+  border: 2px solid #bfe3ff;
+  border-radius: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nh-group-tag {
+  font-size: 0.85rem;
+  color: #4a90d9;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.nh-group-emoji {
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+/* 人民币 */
+.nh-bills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.nh-bill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 86px;
+  height: 52px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.nh-bill-ten { background: #b25e09; }
+.nh-bill-five { background: #c97d2d; }
+.nh-bill-one { background: #e8a84c; }
+
+/* 缺了几 */
+.nh-mgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  gap: 8px;
+  justify-content: center;
+  margin: 12px auto;
+}
+
+.nh-mcell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #333;
+  background: #fff;
+  border: 2px solid #bfe3ff;
+  border-radius: 12px;
+}
+
+.nh-missing {
+  background: #fff3e0;
+  border-color: #ffb84d;
+  font-size: 1.6rem;
+}
+
+/* 代数等式 */
+.nh-algebra {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.nh-alg-emoji {
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.nh-alg-op {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #ff8a3d;
+}
+
+.nh-alg-num {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #333;
+  min-width: 70px;
+  text-align: center;
+  background: #fff8ec;
+  border: 3px solid #ffd9a0;
+  border-radius: 14px;
+  padding: 4px 10px;
+}
+
+/* 选项 */
+.nh-opt {
+  min-width: 88px;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* 窄屏 */
+@media (max-width: 520px) {
+  .nh-frame { grid-template-columns: repeat(5, 42px); }
+  .nh-cell { width: 42px; height: 42px; }
+  .nh-mgrid { grid-template-columns: repeat(3, 54px); }
+  .nh-mcell { width: 54px; height: 54px; font-size: 1.4rem; }
+  .nh-bill { width: 72px; height: 46px; font-size: 1rem; }
+  .nh-opt { min-width: 72px; font-size: 1.2rem; }
+}

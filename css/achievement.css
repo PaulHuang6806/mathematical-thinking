@@ -1,0 +1,150 @@
+/* ============================================
+   Mathematical Thinking · 成就馆样式
+   ============================================ */
+
+.ach-stats {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 16px 0 22px;
+}
+
+.ach-stat {
+  flex: 1;
+  min-width: 120px;
+  max-width: 200px;
+  text-align: center;
+  padding: 16px 10px;
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+}
+
+.ach-stat-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ff8a3d;
+}
+
+.ach-stat-label {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* 拇指进度 */
+.ach-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 10px 0 24px;
+}
+
+.ach-progress-block {
+  background: #fff;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px 18px;
+}
+
+.ach-progress-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.ach-progress {
+  height: 22px;
+  background: #f3f4f6;
+  border-radius: 11px;
+  overflow: hidden;
+}
+
+.ach-progress-fill {
+  height: 100%;
+  border-radius: 11px;
+  width: 0;
+  transition: width 0.6s ease;
+}
+
+.ach-fill-silver { background: linear-gradient(90deg, #c0c4cc, #e5e7eb); }
+.ach-fill-gold { background: linear-gradient(90deg, #f0b429, #f6d365); }
+
+.ach-progress-label {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* 徽章墙 */
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 14px 0;
+}
+
+.ach-card {
+  position: relative;
+  text-align: center;
+  padding: 18px 12px 14px;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  opacity: 0.75;
+}
+
+.ach-on {
+  background: #fffdf5;
+  border-color: #ffd9a0;
+  box-shadow: 0 3px 10px rgba(255, 138, 61, 0.15);
+  opacity: 1;
+}
+
+.ach-gold.ach-on {
+  border-color: #f0b429;
+  box-shadow: 0 3px 12px rgba(240, 180, 41, 0.35);
+  background: linear-gradient(180deg, #fffbea, #fffdf5);
+}
+
+.ach-icon {
+  font-size: 3rem;
+  line-height: 1.2;
+}
+
+.ach-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-top: 6px;
+  color: #333;
+}
+
+.ach-desc {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 4px;
+  min-height: 38px;
+}
+
+.ach-tag {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: #ffb84d;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ach-locked-tag {
+  background: #e5e7eb;
+  color: #999;
+}
+
+.ach-foot {
+  margin-top: 20px;
+  text-align: center;
+}

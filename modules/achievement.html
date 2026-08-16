@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>成就馆 · 金拇指银拇指 — Mathematical Thinking</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/achievement.css?v=1">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-logo">∑</span>
+        <span class="brand-name">成就馆 · 金拇指银拇指</span>
+      </div>
+      <nav class="main-nav">
+        <a href="../index.html">← 返回首页</a>
+        <a href="report.html">学习报告</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="ach-hero">
+      <h1 class="section-title">我的成就馆</h1>
+      <p class="mode-hint">像数学游戏盒的金拇指、银拇指一样，集齐大拇指，成为超级大力士！</p>
+    </section>
+
+    <!-- 统计 -->
+    <section class="ach-stats">
+      <div class="ach-stat">
+        <div class="ach-stat-num" id="stat-gold">0</div>
+        <div class="ach-stat-label">⭐ 累计金星</div>
+      </div>
+      <div class="ach-stat">
+        <div class="ach-stat-num" id="stat-games">0</div>
+        <div class="ach-stat-label">🎮 完成局数</div>
+      </div>
+      <div class="ach-stat">
+        <div class="ach-stat-num" id="stat-modes">0</div>
+        <div class="ach-stat-label">🎲 玩过玩法</div>
+      </div>
+    </section>
+
+    <!-- 拇指进度 -->
+    <section class="ach-progress-wrap">
+      <div class="ach-progress-block">
+        <div class="ach-progress-title">🥈 银拇指（50 个大拇指）</div>
+        <div class="ach-progress"><div class="ach-progress-fill ach-fill-silver" id="silver-fill"></div></div>
+        <div class="ach-progress-label" id="silver-label">0 / 50</div>
+      </div>
+      <div class="ach-progress-block">
+        <div class="ach-progress-title">🥇 金拇指（100 个大拇指）</div>
+        <div class="ach-progress"><div class="ach-progress-fill ach-fill-gold" id="gold-fill"></div></div>
+        <div class="ach-progress-label" id="gold-label">0 / 100</div>
+      </div>
+    </section>
+
+    <!-- 徽章墙 -->
+    <section>
+      <h2 class="section-title">徽章墙</h2>
+      <div class="ach-grid" id="badge-grid"></div>
+    </section>
+
+    <p class="mode-hint ach-foot">记录只存在本机，不上传。每玩一局，都会离金拇指更近一步！</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Mathematical Thinking · 数学思维 · 根据朱瑶幼小衔接《数学游戏盒》内容开发</p>
+    </div>
+  </footer>
+
+  <script src="../js/achievement.js?v=1" defer></script>
+</body>
+</html>
