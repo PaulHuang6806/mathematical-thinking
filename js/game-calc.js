@@ -281,8 +281,10 @@
 
     if (q.kind === 'add') {
       // 两组图案：左组 + 右组，中间 ➕ 分隔，支持"合起来数"
-      const groupA = new Array(q.a).fill(q.emojiA).join('');
-      const groupB = new Array(q.b).fill(q.emojiB).join('');
+      // 注意：每个图案必须独立 span 包裹——连续 emoji 文本是不可断行"长单词"，
+      // flex-wrap 无法在中间换行，数量多时会溢出虚线框（历史 bug，见 git log）
+      const groupA = new Array(q.a).fill(`<span class="calc-item">${q.emojiA}</span>`).join('');
+      const groupB = new Array(q.b).fill(`<span class="calc-item">${q.emojiB}</span>`).join('');
       elArea.innerHTML =
         `<div class="calc-groups">
            <div class="calc-group"><span class="calc-num">${q.a}</span>${groupA}</div>
