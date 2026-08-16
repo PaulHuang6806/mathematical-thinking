@@ -40,6 +40,14 @@
     if (m === 'grid') return '几排几号';
     if (m === 'blocks') return '积木几块';
     if (m === 'month') return '月份朋友';
+    if (m === 'heavy') return '船载重';
+    if (m === 'thick') return '一样粗细';
+    if (m === 'line') return '哪条线短';
+    if (m === 'tool') return '测量工具';
+    if (m === 'area') return '面积比较';
+    if (m === 'scale') return '天平推理';
+    if (m === 'water') return '水杯守恒';
+    if (m === 'cake') return '蛋糕推理';
     return m;
   }
 

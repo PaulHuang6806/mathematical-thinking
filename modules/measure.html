@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>比较与测量 · 轻重长短 — Mathematical Thinking</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/game.css">
+  <link rel="stylesheet" href="../css/measure.css?v=1">
+  <link rel="stylesheet" href="../css/owl.css?v=2">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-logo">∑</span>
+        <span class="brand-name">比较与测量 · 轻重长短</span>
+      </div>
+      <nav class="main-nav">
+        <a href="../index.html">← 返回首页</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container game-wrap">
+    <!-- 模式选择 -->
+    <section id="screen-start" class="screen">
+      <h1 class="section-title">选择玩法</h1>
+      <p class="mode-hint">每局 10 题，慢慢想，答对得星星 ⭐</p>
+      <div class="mode-grid">
+        <button class="mode-card" data-mode="heavy">
+          <span class="mode-icon">⛵</span>
+          <span class="mode-name">船载重</span>
+          <span class="mode-desc">谁的船沉得深，谁更重</span>
+        </button>
+        <button class="mode-card" data-mode="thick">
+          <span class="mode-icon">✏️</span>
+          <span class="mode-name">一样粗细</span>
+          <span class="mode-desc">哪支铅笔最粗最细</span>
+        </button>
+        <button class="mode-card" data-mode="line">
+          <span class="mode-icon">〰️</span>
+          <span class="mode-name">哪条线短</span>
+          <span class="mode-desc">直线、波浪线，比长短</span>
+        </button>
+        <button class="mode-card" data-mode="tool">
+          <span class="mode-icon">📏</span>
+          <span class="mode-name">测量工具</span>
+          <span class="mode-desc">量身高、量体温用什么</span>
+        </button>
+        <button class="mode-card" data-mode="area">
+          <span class="mode-icon">🔲</span>
+          <span class="mode-name">面积比较</span>
+          <span class="mode-desc">数数小方格，比大小</span>
+        </button>
+        <button class="mode-card" data-mode="scale">
+          <span class="mode-icon">⚖️</span>
+          <span class="mode-name">天平推理</span>
+          <span class="mode-desc">连起天平，想想谁最重</span>
+        </button>
+        <button class="mode-card" data-mode="water">
+          <span class="mode-icon">🥛</span>
+          <span class="mode-name">水杯守恒</span>
+          <span class="mode-desc">杯子不一样，水一样多</span>
+        </button>
+        <button class="mode-card" data-mode="cake">
+          <span class="mode-icon">🎂</span>
+          <span class="mode-name">蛋糕推理</span>
+          <span class="mode-desc">蛋糕换一换，等于几块</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 游戏 -->
+    <section id="screen-game" class="screen" style="display:none">
+      <div class="game-top">
+        <span id="mode-title" class="game-mode"></span>
+        <span id="round-info">第 1 / 10 题</span>
+        <span id="score-info">⭐ 0</span>
+        <button id="btn-sound" type="button" title="声音开关">🔊</button>
+      </div>
+      <div class="progress"><div id="progress-fill"></div></div>
+      <p id="q-prompt" class="q-prompt"></p>
+      <div id="question-area"></div>
+      <p id="hint" class="hint"></p>
+      <div id="options" class="options"></div>
+      <p id="feedback" class="feedback"></p>
+    </section>
+
+    <!-- 结算 -->
+    <section id="screen-end" class="screen" style="display:none">
+      <h2 class="section-title">本轮完成！</h2>
+      <p id="end-stars" class="end-stars"></p>
+      <p id="end-msg" class="end-msg"></p>
+      <p id="end-time" class="mode-hint"></p>
+      <div class="end-actions">
+        <button id="btn-again" class="btn btn-primary">再玩一次</button>
+        <button id="btn-menu" class="btn btn-ghost">换个玩法</button>
+        <a class="btn btn-ghost" href="report.html">看学习报告</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/voice-data.js?v=3" async></script>
+  <script src="../js/voice.js?v=2" defer></script>
+  <script src="../js/owl.js?v=2" defer></script>
+  <script src="../js/game-measure.js?v=1" defer></script>
+</body>
+</html>

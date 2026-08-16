@@ -251,6 +251,58 @@ for name in ["一月", "二月", "三月", "四月", "五月", "六月", "七月
     add(name, f"ts_month_{name}")
     add(f"是{name}，我们一起记住它", f"ts_month_reveal_{name}")
 
+# ============ 比较与测量馆（船载重 / 粗细 / 线长短 / 测量工具 / 面积 / 天平 / 水杯 / 蛋糕） ============
+# 船载重
+add("谁更重？", "prompt_ms_heavy")
+add("看看谁的船沉得更深", "hint_ms_heavy_1")
+add("船沉得深的，更重", "hint_ms_heavy_2")
+# 铅笔粗细
+add("哪支铅笔最粗？", "prompt_ms_thick")
+add("哪支铅笔最细？", "prompt_ms_thin")
+add("看看哪支铅笔最胖", "hint_ms_thick_1")
+add("看看哪支铅笔最瘦", "hint_ms_thin_1")
+add("胖胖的是粗的，瘦瘦的是细的", "hint_ms_thick_2")
+# 线长短
+add("哪条线最短？", "prompt_ms_line_short")
+add("哪条线最长？", "prompt_ms_line_long")
+add("直直的路是不是最近？", "hint_ms_line_1")
+add("弯弯绕绕的，要走更远的路", "hint_ms_line_2")
+add("直线最短！", "reveal_ms_line_short")
+add("它最长！", "reveal_ms_line_long")
+add("弯弯绕绕的路更长", "hint_ms_line_3")
+add("数一数，哪条绕得最多", "hint_ms_line_4")
+# 测量工具
+add("量身高，用什么？", "prompt_ms_tool_height")
+add("量桌子，用什么？", "prompt_ms_tool_table")
+add("量体温，用什么？", "prompt_ms_tool_temp")
+add("量时间，用什么？", "prompt_ms_tool_time")
+add("软软的尺子可以围一圈", "hint_ms_tool_1")
+add("长长的尺子拉出来量", "hint_ms_tool_2")
+add("放在身上量温度", "hint_ms_tool_3")
+add("滴答滴答走着的", "hint_ms_tool_4")
+add("想一想，它要怎么量", "hint_ms_tool_5")
+# 面积
+add("两个图形一样大吗？", "prompt_ms_area_same")
+add("哪个图形更大？", "prompt_ms_area_big")
+add("数一数，各有几个小方格", "hint_ms_area_1")
+add("格子一样多，就一样大", "hint_ms_area_2")
+add("格子多的，就更大", "hint_ms_area_3")
+add("它们一样大！", "reveal_ms_area_same")
+# 天平推理
+add("想一想，谁最重？", "prompt_ms_scale_heavy")
+add("想一想，谁最轻？", "prompt_ms_scale_light")
+add("想一想，谁比谁更重", "hint_ms_scale_1")
+add("把两个天平连起来想一想", "hint_ms_scale_2")
+# 水杯守恒
+add("哪杯水最多？", "prompt_ms_water")
+add("水是从同一个杯子里倒出来的", "hint_ms_water_1")
+add("杯子不一样，水一样多哦", "hint_ms_water_2")
+add("水一样多！", "reveal_ms_water")
+# 蛋糕推理
+add("一个圆蛋糕等于几块方蛋糕？", "prompt_ms_cake")
+add("想想蛋糕能换几个", "hint_ms_cake_1")
+add("数一数，换一换", "hint_ms_cake_2")
+
 TOTAL = len(VOICES)
 print(f"共 {TOTAL} 条语音，音色 {VOICE} rate={RATE} pitch={PITCH}")
 

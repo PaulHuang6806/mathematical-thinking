@@ -1,0 +1,302 @@
+/* ============================================
+   Mathematical Thinking · 比较与测量馆样式
+   船载重 / 铅笔粗细 / 线长短 / 测量工具 / 面积 / 天平 / 水杯 / 蛋糕
+   ============================================ */
+
+/* 船载重 */
+.ms-heavy {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 10px 0;
+}
+
+.ms-boat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 130px;
+  padding-bottom: 8px;
+}
+
+.ms-boat-animal {
+  font-size: 2.4rem;
+  z-index: 2;
+  transform: translateY(6px);
+}
+
+.ms-boat-body {
+  font-size: 3rem;
+  line-height: 1;
+  z-index: 2;
+}
+
+.ms-water {
+  width: 120px;
+  height: 12px;
+  background: #9ed4f5;
+  border-radius: 6px;
+  margin-top: -4px;
+  transition: height 0.3s;
+}
+
+.ms-water-high {
+  height: 30px;
+  background: #4a90d9;
+}
+
+.ms-boat-heavy .ms-boat-body {
+  transform: translateY(10px);
+}
+
+.ms-boat-heavy .ms-boat-animal {
+  transform: translateY(16px);
+}
+
+.ms-boat-name {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* 铅笔粗细 */
+.ms-pencils {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 36px;
+  margin: 14px 0;
+}
+
+.ms-pencil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.ms-pencil-body {
+  height: 90px;
+  border-radius: 6px 6px 2px 2px;
+  position: relative;
+}
+
+.ms-pencil-body::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 14px solid #d9a066;
+}
+
+.ms-pencil-red { background: #e5484d; }
+.ms-pencil-blue { background: #4a90d9; }
+.ms-pencil-green { background: #46a758; }
+
+.ms-pencil-name {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* 线长短 */
+.ms-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin: 6px 0;
+}
+
+.ms-line-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ms-line-name {
+  font-size: 1rem;
+  color: #666;
+  min-width: 64px;
+}
+
+/* 测量工具 */
+.ms-tool-obj {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.ms-tool-emoji {
+  font-size: 4.5rem;
+  line-height: 1.2;
+}
+
+.ms-tool-objname {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.ms-tool-opt {
+  font-size: 1.15rem;
+  min-width: 110px;
+}
+
+/* 面积 */
+.ms-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 12px 0;
+}
+
+.ms-area-label {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #4a90d9;
+}
+
+.ms-area-shape {
+  display: grid;
+  grid-template-columns: repeat(4, 30px);
+  grid-template-rows: repeat(4, 30px);
+  gap: 3px;
+}
+
+.ms-area-cell {
+  width: 30px;
+  height: 30px;
+  background: #f3f4f6;
+  border-radius: 5px;
+}
+
+.ms-area-filled {
+  background: #7cc4f7;
+  border: 1px solid #4a90d9;
+}
+
+/* 天平推理 */
+.ms-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 10px 0;
+}
+
+.ms-scale-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ms-scale-emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.ms-scale-small {
+  font-size: 1.7rem;
+}
+
+.ms-scale-op {
+  font-size: 2.2rem;
+  margin: 0 6px;
+}
+
+/* 水杯守恒 */
+.ms-water-cups {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 34px;
+  margin: 14px 0;
+}
+
+.ms-cup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid #c98a3b;
+  border-top: none;
+  background: #fffdf5;
+}
+
+.ms-cup-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #7cc4f7;
+}
+
+.ms-cup-tall { width: 50px; height: 130px; border-radius: 0 0 12px 12px; }
+.ms-cup-short { width: 84px; height: 80px; border-radius: 0 0 12px 12px; }
+.ms-cup-round { width: 66px; height: 100px; border-radius: 0 0 33px 33px; }
+
+.ms-fill-tall { height: 34px; border-radius: 0 0 12px 12px; }
+.ms-fill-short { height: 34px; border-radius: 0 0 12px 12px; }
+.ms-fill-round { height: 34px; border-radius: 0 0 33px 33px; }
+
+.ms-cup-name {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* 蛋糕推理 */
+.ms-cake {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 10px 0;
+}
+
+.ms-cake-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ms-cake-emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.ms-cake-big { font-size: 3.2rem; }
+.ms-cake-small { font-size: 1.8rem; }
+
+.ms-cake-op {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #c98a3b;
+  margin: 0 6px;
+}
+
+/* 通用选项 */
+.ms-opt {
+  min-width: 88px;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+/* 窄屏适配 */
+@media (max-width: 520px) {
+  .ms-heavy { gap: 20px; }
+  .ms-boat { width: 100px; }
+  .ms-water { width: 90px; }
+  .ms-area-cell { width: 26px; height: 26px; }
+  .ms-area-shape { grid-template-columns: repeat(4, 26px); grid-template-rows: repeat(4, 26px); }
+  .ms-pencils { gap: 24px; }
+  .ms-opt { min-width: 72px; font-size: 1.15rem; }
+}
