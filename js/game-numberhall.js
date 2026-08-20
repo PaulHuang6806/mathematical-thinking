@@ -275,6 +275,133 @@
     return 0;
   }
 
+  // ================= 分一分（数的分解：7/16 分解） =================
+  // 显示 total 个图案，分出一堆 given 个（框起来），问另一堆几个
+  function splitQuestion(r, level) {
+    const lv = typeof level === 'number' ? level : 0; // 单参调用容错
+    const ranges = [[5, 7], [7, 9], [10, 16]]; // L1/L2/L3 总数范围（书：7 分解 L2 / 16 分解 L3）
+    const lo = ranges[lv][0], hi = ranges[lv][1];
+    const total = randInt(lo, hi);
+    const given = randInt(1, total - 1); // 分出去的一堆
+    const answer = total - given;
+    const emoji = ['🍎', '🍊', '🍇', '🍓', '🍑'][randInt(0, 4)];
+    const pool = [];
+    for (let i = 1; i <= hi; i++) pool.push(i);
+    const options = shuffle([answer].concat(pickDistractors(answer, pool, 3)));
+    return {
+      kind: 'split',
+      total: total,
+      given: given,
+      answer: answer,
+      emoji: emoji,
+      options: options,
+      answerIndex: options.indexOf(answer),
+      prompt: total + ' 个' + emoji + '，分成两堆，一堆 ' + given + ' 个，另一堆几个？',
+      promptVoice: '分一分，另一堆是几个呀？',
+      hint1: total + ' 个分走 ' + given + ' 个，还剩几个？',
+      hint1Voice: '想一想，总共几个，分走几个',
+      hint2: '数一数，没分走的有几个',
+      reveal: total + ' 个分成 ' + given + ' 个和 ' + answer + ' 个，正好分完！',
+      revealVoice: answer + ' 个，真棒！',
+    };
+  }
+
+  // ================= 认识符号（= + - > <） =================
+  // 题型 A：3 ○ 2 = 5 选 + 或 -；题型 B：5 ○ 3 选 > 或 <
+  function signQuestion(r, level) {
+    const lv = typeof level === 'number' ? level : 0;
+    const type = randInt(0, 1);
+    if (type === 0) {
+      // 加减符号：a ○ b = c
+      const maxNum = lv === 0 ? 5 : lv === 1 ? 9 : 12;
+      const op = randInt(0, 1) === 0 ? '+' : '-';
+      const a = randInt(1, Math.max(2, maxNum - 1));
+      const b = randInt(1, maxNum - a);
+      const c = op === '+' ? a + b : a - b;
+      if (c <= 0) return signQuestion(r, level); // 减法结果须 >0
+      const answer = op;
+      const options = shuffle(['+', '-']);
+      return {
+        kind: 'sign',
+        sub: 'calc',
+        a: a, b: b, c: c, op: op,
+        answer: answer,
+        options: options,
+        answerIndex: options.indexOf(answer),
+        prompt: a + ' ○ ' + b + ' = ' + c + '，○ 里是加号还是减号？',
+        promptVoice: '想一想，圆圈里是加号还是减号呀？',
+        hint1: '加号是合起来，减号是拿走',
+        hint1Voice: '加号是合起来，减号是拿走',
+        hint2: a + ' 和 ' + b + ' 合起来是 ' + c + '，用哪个符号？',
+        hint2Voice: '想一想，哪个符号合适呀？',
+        reveal: a + ' ' + answer + ' ' + b + ' = ' + c + '，对啦！',
+        revealVoice: '真棒！',
+      };
+    }
+    // 大小符号：a ○ b 选 > 或 <
+    const maxNum = lv === 0 ? 5 : lv === 1 ? 10 : 20;
+    let a = randInt(1, maxNum);
+    let b = randInt(1, maxNum);
+    if (a === b) b = a === maxNum ? a - 1 : a + 1;
+    const answer = a > b ? '>' : '<';
+    const options = shuffle(['>', '<']);
+    return {
+      kind: 'sign',
+      sub: 'compare',
+      a: a, b: b,
+      answer: answer,
+      options: options,
+      answerIndex: options.indexOf(answer),
+      prompt: a + ' ○ ' + b + '，○ 里填大于号还是小于号？',
+      promptVoice: '想一想，哪个数更大呀？',
+      hint1: '大大的嘴巴，朝向大的数',
+      hint1Voice: '大大的嘴巴，朝向大的数',
+      hint2: a + ' 比 ' + b + (a > b ? ' 大' : ' 小') + '，符号开口朝哪边？',
+      hint2Voice: '想一想，哪个符号合适呀？',
+      reveal: a + (a > b ? ' > ' : ' < ') + b + '，对啦！',
+      revealVoice: '真棒！',
+    };
+  }
+
+  // ================= 一样多（一一对应 / 数量匹配） =================
+  // 目标组 n 个图案，4 组候选中选数量一样多的
+  function sameQuestion(r, level) {
+    const lv = typeof level === 'number' ? level : 0;
+    const n = lv === 0 ? randInt(3, 5) : lv === 1 ? randInt(5, 8) : randInt(7, 10);
+    const targetEmoji = ['🍎', '🍓', '🍇', '🍊', '🍉'][randInt(0, 4)];
+    const candidates = [n];
+    // 干扰项：贴近数量但不同（|干扰−n|≤2，且 ≥1）
+    const pool = [];
+    for (let i = Math.max(1, n - 2); i <= Math.min(10, n + 2); i++) if (i !== n) pool.push(i);
+    while (candidates.length < 4 && pool.length) {
+      const idx = randInt(0, pool.length - 1);
+      candidates.push(pool[idx]);
+      pool.splice(idx, 1);
+    }
+    while (candidates.length < 4) candidates.push(Math.max(1, n - 3));
+    const order = shuffle(candidates.map((c, i) => ({ c, i })));
+    const answerIdx = order.findIndex((o) => o.c === n);
+    // 候选组用与目标不同的水果，孩子须按数量（而非样式）判断
+    const groupEmojis = ['🍓', '🍊', '🍉', '🍇', '🍑', '🍋', '🍒'];
+    const others = groupEmojis.filter((e) => e !== targetEmoji);
+    return {
+      kind: 'same',
+      n: n,
+      targetEmoji: targetEmoji,
+      groups: order.map((o, gi) => ({ count: o.c, emoji: others[gi % others.length] })),
+      answer: n,
+      options: order.map((o) => o.c),
+      answerIndex: answerIdx,
+      prompt: '数一数，哪一组和上面一样多？',
+      promptVoice: '找一找，哪一组和它一样多呀？',
+      hint1: '数一数上面有几个，再数数下面的',
+      hint1Voice: '一个一个对着数一数',
+      hint2: '上面的有 ' + n + ' 个，找一找下面哪一组也是 ' + n + ' 个',
+      reveal: '这一组也有 ' + n + ' 个，一样多！',
+      revealVoice: '一样多，真棒！',
+    };
+  }
+
   function buildSummary(st) {
     return { gold: st.gold, silver: st.silver, helped: st.helped, level: st.level };
   }
@@ -289,6 +416,9 @@
       moneyQuestion: moneyQuestion,
       missingQuestion: missingQuestion,
       algebraQuestion: algebraQuestion,
+      splitQuestion: splitQuestion,
+      signQuestion: signQuestion,
+      sameQuestion: sameQuestion,
       pickPhrase: pickPhrase,
       adjustLevel: adjustLevel,
       buildSummary: buildSummary,
@@ -368,6 +498,7 @@
   const MODE_NAMES = {
     neighbor: '相邻数', oddEven: '单数双数', makeTen: '凑成 10',
     groupCount: '按群数', money: '认识人民币', missing: '缺了几', algebra: '代数推理',
+    split: '分一分', sign: '认识符号', same: '一样多',
   };
 
   function showScreen(name) {
@@ -433,6 +564,35 @@
       $('options').innerHTML = q.options
         .map((v) => `<button class="opt-btn nh-opt" data-val="${v}">${v}</button>`)
         .join('');
+    } else if (q.kind === 'split') {
+      // 一堆 given 个（虚线框）+ 一堆问号，问另一堆几个
+      const givenHtml = new Array(q.given).fill(`<span class="nh-split-emoji">${q.emoji}</span>`).join('');
+      const askHtml = new Array(q.total - q.given).fill(`<span class="nh-split-emoji nh-split-ask">${q.emoji}</span>`).join('');
+      elArea.innerHTML =
+        `<div class="nh-split"><div class="nh-split-pile nh-split-pile-a">${givenHtml}</div>` +
+        `<div class="nh-split-op">＋</div><div class="nh-split-pile nh-split-pile-b">${askHtml}<span class="nh-split-q">？</span></div></div>`;
+      $('options').innerHTML = q.options
+        .map((v) => `<button class="opt-btn nh-opt" data-val="${v}">${v}个</button>`)
+        .join('');
+    } else if (q.kind === 'sign') {
+      const signHtml = q.sub === 'calc'
+        ? `<span class="nh-sym-num">${q.a}</span><span class="nh-sym-op">○</span><span class="nh-sym-num">${q.b}</span><span class="nh-sym-op">=</span><span class="nh-sym-num">${q.c}</span>`
+        : `<span class="nh-sym-num">${q.a}</span><span class="nh-sym-op">○</span><span class="nh-sym-num">${q.b}</span>`;
+      elArea.innerHTML = `<div class="nh-sign">${signHtml}</div>`;
+      $('options').innerHTML = q.options
+        .map((v) => `<button class="opt-btn nh-opt nh-sym-btn" data-val="${v}">${v}</button>`)
+        .join('');
+    } else if (q.kind === 'same') {
+      const targetHtml = new Array(q.n).fill(`<span class="nh-same-emoji">${q.targetEmoji}</span>`).join('');
+      const groupsHtml = q.groups
+        .map((g, gi) =>
+          `<div class="nh-same-group" data-val="${g.count}">${new Array(g.count).fill(`<span class="nh-same-emoji">${g.emoji}</span>`).join('')}</div>`
+        ).join('');
+      elArea.innerHTML = `<div class="nh-same"><div class="nh-same-target">${targetHtml}</div><div class="nh-same-groups">${groupsHtml}</div></div>`;
+      // 点图形本身作答：组卡片即选项（值 = 组数量），同时保留数字按钮（委托统一处理）
+      $('options').innerHTML = q.groups
+        .map((g, gi) => `<button class="opt-btn nh-opt" data-val="${g.count}">${g.count}个</button>`)
+        .join('');
     }
 
     $('round-info').textContent = '第 ' + state.round + ' / ' + TOTAL_ROUNDS + ' 题';
@@ -495,6 +655,9 @@
       case 'groupCount': state.question = groupCountQuestion(); break;
       case 'money': state.question = moneyQuestion(); break;
       case 'missing': state.question = missingQuestion(); break;
+      case 'split': state.question = splitQuestion(state.round, state.level); break;
+      case 'sign': state.question = signQuestion(state.round, state.level); break;
+      case 'same': state.question = sameQuestion(state.round, state.level); break;
       default: state.question = algebraQuestion();
     }
     if (global.__mtOwl) global.__mtOwl.flyIn('idle');
@@ -626,6 +789,9 @@
     document.addEventListener('click', (e) => {
       const opt = e.target.closest('.nh-opt');
       if (opt) return answer({ val: opt.dataset.val });
+      // 一样多：点图形组卡片本身作答
+      const group = e.target.closest('.nh-same-group');
+      if (group) return answer({ val: group.dataset.val });
     });
 
     const btnSound = $('btn-sound');

@@ -192,3 +192,102 @@
   .nh-bill { width: 72px; height: 46px; font-size: 1rem; }
   .nh-opt { min-width: 72px; font-size: 1.2rem; }
 }
+
+/* ================= 分一分（数的分解） ================= */
+.nh-split {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.nh-split-pile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 200px;
+  padding: 10px;
+  border: 3px dashed #ffb36b;
+  border-radius: 14px;
+  background: #fffaf2;
+  justify-content: center;
+}
+.nh-split-pile-a { border-color: #7ecb7e; background: #f4fff4; }
+.nh-split-pile-b { border-color: #8fb8ff; background: #f4f8ff; }
+.nh-split-emoji { font-size: 1.7rem; }
+.nh-split-ask { opacity: 0.35; }
+.nh-split-q {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #5a8cff;
+  margin-left: 4px;
+}
+.nh-split-op { font-size: 2.2rem; font-weight: 800; color: #ff944d; }
+
+/* ================= 认识符号 ================= */
+.nh-sign {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+  font-size: 3rem;
+}
+.nh-sym-num {
+  font-weight: 800;
+  color: #333;
+  background: #fff8ec;
+  border: 3px solid #ffd9a0;
+  border-radius: 14px;
+  padding: 6px 16px;
+  min-width: 60px;
+  text-align: center;
+}
+.nh-sym-op {
+  font-weight: 800;
+  color: #ff944d;
+  min-width: 44px;
+  text-align: center;
+  animation: nh-sym-bounce 1.6s ease-in-out infinite;
+}
+@keyframes nh-sym-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.nh-sym-btn { font-size: 1.9rem; min-width: 76px; }
+
+/* ================= 一样多（数量匹配） ================= */
+.nh-same-target {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  padding: 12px;
+  border: 3px solid #ffd9a0;
+  border-radius: 14px;
+  background: #fffaf2;
+  margin-bottom: 12px;
+}
+.nh-same-emoji { font-size: 1.6rem; }
+.nh-same-groups {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.nh-same-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border: 3px solid #cfe3ff;
+  border-radius: 12px;
+  background: #f7fbff;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.nh-same-group:active { transform: scale(0.95); border-color: #5a8cff; }
+@media (max-width: 520px) {
+  .nh-same-emoji { font-size: 1.3rem; }
+}

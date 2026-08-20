@@ -341,6 +341,25 @@ add("按顺序数一数", "hint_nh_missing_1")
 add("看看哪一行断开了", "hint_nh_missing_2")
 for v in range(1, 19):
     add(f"缺了 {v}，真棒！", f"reveal_nh_missing_{v}")
+# 分一分（数的分解：7/16 分解）
+add("分一分，另一堆是几个呀？", "prompt_nh_split")
+add("想一想，总共几个，分走几个", "hint_nh_split_1")
+add("数一数，没分走的有几个", "hint_nh_split_2")
+for n in range(1, 16):
+    add(f"{n} 个，真棒！", f"reveal_nh_split_{n}")
+# 认识符号（= + - > <）
+add("想一想，圆圈里是加号还是减号呀？", "prompt_nh_sign_calc")
+add("加号是合起来，减号是拿走", "hint_nh_sign_1")
+add("想一想，哪个数更大呀？", "prompt_nh_sign_cmp")
+add("大大的嘴巴，朝向大的数", "hint_nh_sign_cmp_1")
+# 一样多（一一对应 / 数量匹配）
+add("找一找，哪一组和它一样多呀？", "prompt_nh_same")
+add("一个一个对着数一数", "hint_nh_same_1")
+for n in range(3, 11):
+    add(f"上面的有 {n} 个，找一找下面哪一组也是 {n} 个", f"hint_nh_same_2_{n}")
+add("一样多，真棒！", "reveal_nh_same")
+# 认识符号：动态 hint2 的静态同义句
+add("想一想，哪个符号合适呀？", "hint_nh_sign_2")
 # 代数推理
 add("想一想，它等于几？", "prompt_nh_algebra")
 add("两个一样的合起来是几", "hint_nh_algebra_1")
