@@ -291,3 +291,56 @@
 @media (max-width: 520px) {
   .nh-same-emoji { font-size: 1.3rem; }
 }
+
+/* ================= 平均分（一样多怎么分） ================= */
+.nh-share-fruits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  padding: 12px;
+  border: 3px dashed #ffb36b;
+  border-radius: 14px;
+  background: #fffaf2;
+  margin-bottom: 10px;
+}
+.nh-share-emoji { font-size: 1.6rem; }
+.nh-share-kids {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+}
+.nh-share-kid { font-size: 2rem; }
+.nh-share-label { font-size: 1.1rem; color: #888; }
+
+/* ================= 价格推理（等量代换） ================= */
+.nh-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+.nh-price-emoji { font-size: 2rem; }
+.nh-price-op { font-size: 1.6rem; font-weight: 800; color: #ff944d; margin: 0 2px; }
+.nh-price-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #3a7d3a;
+  background: #f0fff0;
+  border: 3px solid #a8e0a8;
+  border-radius: 10px;
+  padding: 2px 10px;
+}
+.nh-price-sep {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #5a8cff;
+  animation: nh-sym-bounce 1.6s ease-in-out infinite;
+}
+@media (max-width: 520px) {
+  .nh-share-emoji { font-size: 1.3rem; }
+  .nh-price-emoji { font-size: 1.6rem; }
+}

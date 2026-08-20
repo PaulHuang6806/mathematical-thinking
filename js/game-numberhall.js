@@ -402,6 +402,84 @@
     };
   }
 
+  // ================= 平均分（一样多怎么分：20 苹果=10+10） =================
+  // total 个图案平均分给 kids 个小朋友，每人几个（必须整除）
+  function equalShareQuestion(r, level) {
+    const lv = typeof level === 'number' ? level : 0;
+    const kids = randInt(0, 1) === 0 ? 2 : 3;
+    // 总数必须是 kids 的倍数：L1 6-8、L2 8-12、L3 12-20
+    const hi = lv === 0 ? 8 : lv === 1 ? 12 : 20;
+    const lo = lv === 0 ? 6 : lv === 1 ? 8 : 12;
+    let total = Math.floor(randInt(lo, hi) / kids) * kids;
+    if (total < lo) total += kids;
+    if (total > hi) total -= kids;
+    const answer = total / kids;
+    const emoji = ['🍎', '🍊', '🍇', '🍓', '🍑', '🍒'][randInt(0, 5)];
+    const pool = [];
+    for (let i = 1; i <= 10; i++) pool.push(i);
+    const options = shuffle([answer].concat(pickDistractors(answer, pool, 3)));
+    return {
+      kind: 'equalShare',
+      total: total,
+      kids: kids,
+      answer: answer,
+      emoji: emoji,
+      options: options,
+      answerIndex: options.indexOf(answer),
+      prompt: total + ' 个' + emoji + '，平均分给 ' + kids + ' 个小朋友，每人几个？',
+      promptVoice: '平均分一分，每人几个呀？',
+      hint1: total + ' 个分给 ' + kids + ' 个人，要分得一样多',
+      hint1Voice: '分给每个人，要一样多哦',
+      hint2: kids + ' 个小朋友，每人分到一样多，一个一个轮流分',
+      hint2Voice: '一个一个轮流分，每个人一样多',
+      reveal: '每人 ' + answer + ' 个，' + kids + ' 个人一样多，是平均分！',
+      revealVoice: answer + ' 个，真棒！',
+    };
+  }
+
+  // ================= 价格推理（苹果+橙子=5 元：等量代换定价） =================
+  // 两行算式：A+B=X，A+B+B=Y → B=Y-X；或 A+B=X，A+A+B=Z → A=Z-X
+  function priceQuestion(r, level) {
+    const lv = typeof level === 'number' ? level : 0;
+    const emojis = ['🍎', '🍊', '🍇', '🍓'];
+    const e1 = emojis[randInt(0, 3)];
+    let e2 = emojis[randInt(0, 3)];
+    if (e2 === e1) e2 = emojis[(emojis.indexOf(e1) + 1) % 4];
+    // 单价：b(第二水果) 1..4，a(第一水果) 1..6，且 a≠b 保证可区分
+    const b = randInt(1, 4);
+    let a = randInt(1, 6);
+    if (a === b) a = a === 6 ? 5 : a + 1;
+    const askB = randInt(0, 1) === 0;
+    let x, y, q, ans;
+    if (askB) {
+      // A + B = X；A + B + B = Y → B = Y - X
+      x = a + b; y = a + 2 * b;
+      q = e2; ans = b;
+    } else {
+      // A + B = X；A + A + B = Z → A = Z - X
+      x = a + b; y = 2 * a + b;
+      q = e1; ans = a;
+    }
+    const pool = [];
+    for (let i = 1; i <= 9; i++) pool.push(i);
+    const options = shuffle([ans].concat(pickDistractors(ans, pool, 3)));
+    return {
+      kind: 'price',
+      e1: e1, e2: e2, x: x, y: y, q: q, ans: ans, askB: askB,
+      answer: ans,
+      options: options,
+      answerIndex: options.indexOf(ans),
+      prompt: e1 + ' + ' + e2 + ' = ' + x + ' 元，' + e1 + (askB ? ' + ' + e2 + ' + ' + e2 : ' + ' + e1 + ' + ' + e2) + ' = ' + y + ' 元，' + q + ' 是几元？',
+      promptVoice: '想一想，它值几元呀？',
+      hint1: '下面一行比上面一行多了什么？',
+      hint1Voice: '看看下面多了一个什么',
+      hint2: '下面贵 ' + (y - x) + ' 元，多的就是' + (askB ? e2 : e1) + '的价钱',
+      hint2Voice: '看看多了什么，多的就是它的价钱',
+      reveal: q + ' 是 ' + ans + ' 元，真棒！',
+      revealVoice: ans + ' 元，真棒！',
+    };
+  }
+
   function buildSummary(st) {
     return { gold: st.gold, silver: st.silver, helped: st.helped, level: st.level };
   }
@@ -419,6 +497,8 @@
       splitQuestion: splitQuestion,
       signQuestion: signQuestion,
       sameQuestion: sameQuestion,
+      equalShareQuestion: equalShareQuestion,
+      priceQuestion: priceQuestion,
       pickPhrase: pickPhrase,
       adjustLevel: adjustLevel,
       buildSummary: buildSummary,
@@ -499,6 +579,7 @@
     neighbor: '相邻数', oddEven: '单数双数', makeTen: '凑成 10',
     groupCount: '按群数', money: '认识人民币', missing: '缺了几', algebra: '代数推理',
     split: '分一分', sign: '认识符号', same: '一样多',
+    equalShare: '平均分', price: '价格推理',
   };
 
   function showScreen(name) {
@@ -593,6 +674,25 @@
       $('options').innerHTML = q.groups
         .map((g, gi) => `<button class="opt-btn nh-opt" data-val="${g.count}">${g.count}个</button>`)
         .join('');
+    } else if (q.kind === 'equalShare') {
+      // 图案 + 小朋友头像（平均分）
+      const fruitsHtml = new Array(q.total).fill(`<span class="nh-share-emoji">${q.emoji}</span>`).join('');
+      const kidsHtml = new Array(q.kids).fill('<span class="nh-share-kid">🧒</span>').join('');
+      elArea.innerHTML =
+        `<div class="nh-share"><div class="nh-share-fruits">${fruitsHtml}</div>` +
+        `<div class="nh-share-kids"><span class="nh-share-label">平均分给</span>${kidsHtml}</div></div>`;
+      $('options').innerHTML = q.options
+        .map((v) => `<button class="opt-btn nh-opt" data-val="${v}">每人${v}个</button>`)
+        .join('');
+    } else if (q.kind === 'price') {
+      const row1 = `<span class="nh-price-emoji">${q.e1}</span><span class="nh-price-op">+</span><span class="nh-price-emoji">${q.e2}</span><span class="nh-price-op">=</span><span class="nh-price-num">${q.x}元</span>`;
+      const row2 = q.askB
+        ? `<span class="nh-price-emoji">${q.e1}</span><span class="nh-price-op">+</span><span class="nh-price-emoji">${q.e2}</span><span class="nh-price-op">+</span><span class="nh-price-emoji">${q.e2}</span><span class="nh-price-op">=</span><span class="nh-price-num">${q.y}元</span>`
+        : `<span class="nh-price-emoji">${q.e1}</span><span class="nh-price-op">+</span><span class="nh-price-emoji">${q.e1}</span><span class="nh-price-op">+</span><span class="nh-price-emoji">${q.e2}</span><span class="nh-price-op">=</span><span class="nh-price-num">${q.y}元</span>`;
+      elArea.innerHTML = `<div class="nh-price">${row1}<div class="nh-price-sep">？元</div>${row2}</div>`;
+      $('options').innerHTML = q.options
+        .map((v) => `<button class="opt-btn nh-opt" data-val="${v}">${v}元</button>`)
+        .join('');
     }
 
     $('round-info').textContent = '第 ' + state.round + ' / ' + TOTAL_ROUNDS + ' 题';
@@ -658,6 +758,8 @@
       case 'split': state.question = splitQuestion(state.round, state.level); break;
       case 'sign': state.question = signQuestion(state.round, state.level); break;
       case 'same': state.question = sameQuestion(state.round, state.level); break;
+      case 'equalShare': state.question = equalShareQuestion(state.round, state.level); break;
+      case 'price': state.question = priceQuestion(state.round, state.level); break;
       default: state.question = algebraQuestion();
     }
     if (global.__mtOwl) global.__mtOwl.flyIn('idle');

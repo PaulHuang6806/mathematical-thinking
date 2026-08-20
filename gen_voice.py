@@ -360,6 +360,16 @@ for n in range(3, 11):
 add("一样多，真棒！", "reveal_nh_same")
 # 认识符号：动态 hint2 的静态同义句
 add("想一想，哪个符号合适呀？", "hint_nh_sign_2")
+# 平均分（一样多怎么分）
+add("平均分一分，每人几个呀？", "prompt_nh_share")
+add("分给每个人，要一样多哦", "hint_nh_share_1")
+add("一个一个轮流分，每个人一样多", "hint_nh_share_2")
+# 价格推理（等量代换定价）
+add("想一想，它值几元呀？", "prompt_nh_price")
+add("看看下面多了一个什么", "hint_nh_price_1")
+add("看看多了什么，多的就是它的价钱", "hint_nh_price_2")
+for n in range(1, 10):
+    add(f"{n} 元，真棒！", f"reveal_nh_price_{n}")
 # 代数推理
 add("想一想，它等于几？", "prompt_nh_algebra")
 add("两个一样的合起来是几", "hint_nh_algebra_1")

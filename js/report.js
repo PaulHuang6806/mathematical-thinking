@@ -58,6 +58,8 @@
     if (m === 'split') return '分一分';
     if (m === 'sign') return '认识符号';
     if (m === 'same') return '一样多';
+    if (m === 'equalShare') return '平均分';
+    if (m === 'price') return '价格推理';
     if (m === 'solid') return '立体图形';
     if (m === 'equal') return '等分';
     if (m === 'classify') return '谁是梯形';
