@@ -193,7 +193,7 @@
       shapeId: answerId,
       options: options, // 图形 id 数组
       answerIndex: options.indexOf(answerId),
-      prompt: '这是什么图形？',
+      prompt: '这是什么图形呀？',
     };
   }
 

@@ -1,47 +1,98 @@
 /* ============================================
-   Mathematical Thinking · 猫头鹰吉祥物
-   纯 SVG 手绘 + Web Animations API，零图片零依赖。
+   Mathematical Thinking · 猫头鹰吉祥物 v4（Q 版表情版）
+   纯 SVG 手绘 + Web Animations API + CSS 动画，零图片零依赖。
+   v4 更新（用户反馈"太呆板"）：
+     · Q 版重绘：大头圆身、大眼双高光、眉毛、呆毛、腮红、亮色系
+     · 表情系统：normal / happy / think / sad / surprise 随场景自动切换
+     · 持续活着：呼吸浮动 + 眨眼 + 呆毛轻摆（角落 idle 也在动）
+     · 说话联动：嘴开合 + 点头，时长随语音文本长度
+     · 出题思考：MutationObserver 监听 #q-prompt，出新题自动歪头思考
    位置系统：全部由 transform 控制（单坐标系，无 left/bottom 参与，
    避免 CSS 过渡/动画与定位叠加冲突）。
-   时机由游戏 JS 显式调用：
-     flyIn('wave')      开局打招呼（从屏幕外飞入左下角，挥翅膀）
-     flyIn('cheer')     答对庆祝（飞入角落+弹跳+扇翅）
-     flyIn('big')       连对 3+：扑腾翅膀波浪轨迹飞向屏幕中间
-     flyIn('huge')      连对 5+：飞向中间 + 撒星星
-     flyIn('perfect')   全对结算：大号飞向中间 + 星星雨
-     flyIn('encourage') 答错陪伴（角落出现，歪头）
-     flyIn('idle')      安静回到左下角（不打扰）
-     flyIn('end')       结算登场
-     say(text, delayMs) 延迟后播语音（复用 voice.js 语音包）
-   API: window.__mtOwl
+   时机由游戏 JS 显式调用 flyIn(pose)，pose → 表情自动映射：
+     wave 开局打招呼 / cheer 答对 / big 连对3+ / huge 连对5+ / perfect 全对
+     encourage 答错陪伴 / idle 回角落 / end 结算登场
+   API: window.__mtOwl = { flyIn, say, hide, setMood }
    ============================================ */
 (function (global) {
   'use strict';
 
-  // ---------- 猫头鹰 SVG（手绘可爱风） ----------
+  // ---------- Q 版猫头鹰 SVG（大头圆身 + 表情多形态） ----------
   function owlSvg() {
     return `
-    <svg viewBox="0 0 120 130" width="110" height="119" aria-hidden="true">
+    <svg viewBox="0 0 140 150" width="110" height="118" aria-hidden="true">
       <g>
-        <path class="owl-wing-back" d="M18 62 Q2 78 14 98 Q28 84 34 72 Z" fill="#7A5C40"/>
-        <ellipse cx="60" cy="76" rx="40" ry="44" fill="#A9825F"/>
-        <ellipse cx="60" cy="90" rx="27" ry="30" fill="#F5E9D7"/>
-        <path d="M46 116 L54 130 L66 116 Z" fill="#7A5C40"/>
-        <ellipse cx="60" cy="50" rx="27" ry="23" fill="#FDF6EC"/>
-        <g class="owl-eye">
-          <circle cx="47" cy="50" r="11" fill="#fff" stroke="#4A3628" stroke-width="2.5"/>
-          <circle cx="49" cy="51" r="5.5" fill="#3A2A1C"/>
-          <circle cx="51" cy="48" r="2" fill="#fff"/>
+        <g class="owl-wing-back"><path d="M26 96 Q6 104 12 122 Q26 114 36 108 Z" fill="#B5703A"/></g>
+        <ellipse class="owl-foot" cx="56" cy="144" rx="9" ry="6" fill="#F5853F"/>
+        <ellipse class="owl-foot" cx="84" cy="144" rx="9" ry="6" fill="#F5853F"/>
+        <ellipse class="owl-body" cx="70" cy="114" rx="40" ry="33" fill="#D9A05B"/>
+        <ellipse class="owl-belly" cx="70" cy="121" rx="25" ry="22" fill="#FFF1DC"/>
+        <g class="owl-head">
+          <g class="owl-feather owl-feather-1"><path d="M54 26 Q48 8 58 5 Q56 16 62 22 Z" fill="#8B5E34"/></g>
+          <g class="owl-feather owl-feather-2"><path d="M67 24 Q67 2 77 2 Q73 12 75 21 Z" fill="#8B5E34"/></g>
+          <g class="owl-feather owl-feather-3"><path d="M80 26 Q90 8 96 12 Q88 17 85 23 Z" fill="#8B5E34"/></g>
+          <ellipse cx="70" cy="52" rx="46" ry="42" fill="#D9A05B"/>
+          <ellipse cx="70" cy="60" rx="34" ry="31" fill="#FFF6E9"/>
+          <path class="owl-brow" d="M38 36 Q44 30 50 34" fill="none" stroke="#5A4030" stroke-width="3" stroke-linecap="round"/>
+          <path class="owl-brow" d="M102 36 Q96 30 90 34" fill="none" stroke="#5A4030" stroke-width="3" stroke-linecap="round"/>
+          <g class="owl-eye" transform="translate(52,58)">
+            <g class="eye-normal">
+              <circle r="13" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle cy="1" r="6.5" fill="#3E2C1E"/>
+              <circle cx="3" cy="-2" r="2.6" fill="#fff"/>
+              <circle cx="-1.5" cy="4" r="1.4" fill="#fff"/>
+            </g>
+            <g class="eye-happy">
+              <path d="M-13 4 Q0 -15 13 4 Q0 -3 -13 4 Z" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+            </g>
+            <g class="eye-think">
+              <path d="M-13 2 A13 13 0 0 1 13 2 Z" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle cy="-1" r="4.2" fill="#3E2C1E"/>
+            </g>
+            <g class="eye-sad">
+              <path d="M-13 8 Q0 16 13 8 Q0 11 -13 8 Z" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle cy="10" r="4" fill="#3E2C1E"/>
+            </g>
+            <g class="eye-surprise">
+              <circle r="15" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle r="3.2" fill="#3E2C1E"/>
+              <circle cx="-4" cy="-4" r="1.4" fill="#fff"/>
+            </g>
+          </g>
+          <g class="owl-eye" transform="translate(88,58)">
+            <g class="eye-normal">
+              <circle r="13" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle cy="1" r="6.5" fill="#3E2C1E"/>
+              <circle cx="3" cy="-2" r="2.6" fill="#fff"/>
+              <circle cx="-1.5" cy="4" r="1.4" fill="#fff"/>
+            </g>
+            <g class="eye-happy">
+              <path d="M-13 4 Q0 -15 13 4 Q0 -3 -13 4 Z" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+            </g>
+            <g class="eye-think">
+              <path d="M-13 2 A13 13 0 0 1 13 2 Z" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle cy="-1" r="4.2" fill="#3E2C1E"/>
+            </g>
+            <g class="eye-sad">
+              <path d="M-13 8 Q0 16 13 8 Q0 11 -13 8 Z" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle cy="10" r="4" fill="#3E2C1E"/>
+            </g>
+            <g class="eye-surprise">
+              <circle r="15" fill="#fff" stroke="#5A4030" stroke-width="3"/>
+              <circle r="3.2" fill="#3E2C1E"/>
+              <circle cx="-4" cy="-4" r="1.4" fill="#fff"/>
+            </g>
+          </g>
+          <g class="owl-mouth" transform="translate(70,78)">
+            <path class="mouth-normal" d="M-6 0 L6 0 L0 8 Z" fill="#F5853F"/>
+            <path class="mouth-happy" d="M-8 1 Q0 10 8 1" fill="none" stroke="#F5853F" stroke-width="3.5" stroke-linecap="round"/>
+            <path class="mouth-sad" d="M-8 1 Q0 -7 8 1" fill="none" stroke="#F5853F" stroke-width="3.5" stroke-linecap="round"/>
+            <circle class="mouth-surprise" r="4.5" fill="#F5853F"/>
+          </g>
+          <circle class="owl-blush" cx="38" cy="76" r="6" fill="#FF9E9E" opacity="0.85"/>
+          <circle class="owl-blush" cx="102" cy="76" r="6" fill="#FF9E9E" opacity="0.85"/>
         </g>
-        <g class="owl-eye">
-          <circle cx="73" cy="50" r="11" fill="#fff" stroke="#4A3628" stroke-width="2.5"/>
-          <circle cx="75" cy="51" r="5.5" fill="#3A2A1C"/>
-          <circle cx="77" cy="48" r="2" fill="#fff"/>
-        </g>
-        <path class="owl-beak" d="M55 62 L65 62 L60 73 Z" fill="#F2A33C"/>
-        <circle cx="35" cy="62" r="5.5" fill="#F6B8A0" opacity="0.85"/>
-        <circle cx="85" cy="62" r="5.5" fill="#F6B8A0" opacity="0.85"/>
-        <path class="owl-wing" d="M92 64 Q112 72 106 96 Q94 92 86 80 Z" fill="#8B6B4A"/>
+        <g class="owl-wing"><path d="M110 94 Q130 102 124 124 Q112 116 102 108 Z" fill="#E8B06B"/></g>
       </g>
     </svg>`;
   }
@@ -66,7 +117,7 @@
   let confettiBox = null;
   let speechTimer = null;
   let flightAnim = null;
-  let animQueue = []; // 依次执行的 WAAPI 动画（飞行→弹跳）
+  let currentMood = 'normal';
 
   function round1(n) { return Math.round(n * 10) / 10; }
 
@@ -116,10 +167,22 @@
     } catch (e) { /* 忽略 */ }
   }
 
+  // ---------- 表情系统 ----------
+  // pose → 表情自动映射；setMood 可被游戏/观察器显式调用
+  const POSE_MOOD = {
+    wave: 'happy', cheer: 'happy', big: 'happy', huge: 'happy',
+    perfect: 'happy', encourage: 'sad', end: 'happy', idle: 'normal',
+  };
+  function setMood(mood) {
+    if (typeof document === 'undefined' || !bird) return;
+    currentMood = mood || 'normal';
+    bird.className = 'owl-bird mood-' + currentMood;
+  }
+
   function clearAnim() {
     if (!bird) return;
     if (flightAnim) { flightAnim.cancel(); flightAnim = null; }
-    bird.className = 'owl-bird';
+    bird.className = 'owl-bird'; // 表情由 flyIn/setMood 在调用方设置
     stage.classList.remove('owl-fly-in');
     stage.classList.remove('owl-flying');
     stage.classList.remove('owl-hidden');
@@ -178,6 +241,7 @@
     ensureStage();
     if (speechTimer) { clearTimeout(speechTimer); speechTimer = null; }
     clearAnim();
+    setMood(POSE_MOOD[pose] || 'normal');
     if (pose === 'idle') {
       stage.style.transform = posCorner(); // 平滑滑回左下角（transition 生效）
       return;
@@ -185,7 +249,6 @@
 
     bird.classList.remove('owl-flap');
     if (pose === 'cheer' || pose === 'big' || pose === 'huge' || pose === 'perfect') bird.classList.add('owl-flap');
-    bird.classList.toggle('owl-tilt', pose === 'encourage');
 
     if (pose === 'big' || pose === 'huge' || pose === 'perfect') {
       // 扑腾翅膀直接飞向屏幕中间
@@ -211,11 +274,34 @@
     if (speechTimer) clearTimeout(speechTimer);
     speechTimer = setTimeout(() => {
       v.play(text);
-      // 说话时嘴巴动一动（俏皮细节）
-      const beak = stage.querySelector('.owl-beak');
-      if (beak) beak.classList.add('owl-beak-talk');
-      setTimeout(() => { if (beak) beak.classList.remove('owl-beak-talk'); }, 900);
+      // 说话联动：嘴开合 + 点头，时长随语音长度估算（中文约 170ms/字）
+      const mouth = stage.querySelector('.owl-mouth');
+      const head = stage.querySelector('.owl-head');
+      if (mouth) mouth.classList.add('owl-talk');
+      if (head) head.classList.add('owl-talk');
+      const dur = Math.min(2800, Math.max(700, String(text).length * 170));
+      setTimeout(() => {
+        if (mouth) mouth.classList.remove('owl-talk');
+        if (head) head.classList.remove('owl-talk');
+      }, dur);
     }, delayMs || 0);
+  }
+
+  // 出新题自动"思考"：监听题干容器文本变化（各模块统一 #q-prompt）
+  function watchQuestions() {
+    if (typeof document === 'undefined' || !document.querySelector) return;
+    const promptEl = document.querySelector('#q-prompt');
+    if (!promptEl) return; // 成就馆等无题干页不监听
+    let lastText = promptEl.textContent;
+    let t = null;
+    const mo = new MutationObserver(() => {
+      const txt = promptEl.textContent;
+      if (txt === lastText) return;
+      lastText = txt;
+      if (t) clearTimeout(t);
+      t = setTimeout(() => setMood('think'), 300);
+    });
+    mo.observe(promptEl, { childList: true, characterData: true, subtree: true });
   }
 
   function hide() {
@@ -223,9 +309,16 @@
     if (stage) stage.classList.add('owl-hidden');
   }
 
+  // 初始化：DOM 就绪后挂出题观察器
+  if (typeof document !== 'undefined') {
+    if (document.readyState !== 'loading') watchQuestions();
+    else document.addEventListener('DOMContentLoaded', watchQuestions);
+  }
+
   global.__mtOwl = {
     flyIn: flyIn,
     say: say,
     hide: hide,
+    setMood: setMood,
   };
 })(typeof window !== 'undefined' ? window : globalThis);

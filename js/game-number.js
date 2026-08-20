@@ -101,7 +101,7 @@
       emoji: EMOJIS[randInt(0, EMOJIS.length - 1)],
       options: options,
       answerIndex: options.indexOf(n),
-      prompt: '数一数，有几个？',
+      prompt: '数一数，一共有几个呀？',
     };
   }
 

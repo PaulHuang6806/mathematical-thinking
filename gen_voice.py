@@ -33,10 +33,10 @@ def add(text, name):
     VOICES.append((text, name))
 
 # 题干
-add("数一数，有几个？", "prompt_count")
+add("数一数，一共有几个呀？", "prompt_count")
 add("哪个更大？", "prompt_bigger")
 add("哪个更小？", "prompt_smaller")
-add("这是什么图形？", "prompt_shape")
+add("这是什么图形呀？", "prompt_shape")
 for name in ["圆形", "三角形", "正方形", "长方形", "五角星", "心形", "椭圆形", "菱形", "六边形", "月牙形"]:
     add(f"找出{name}", f"find_{name}")
 
@@ -106,8 +106,8 @@ add("声音已打开", "sound_on")
 
 # ============ 逻辑模块（找规律 / 找不同 / 谁最高） ============
 # 题干
-add("找规律，下一个是什么？", "prompt_pattern")
-add("哪一个不一样？", "prompt_odd")
+add("找规律，下一个是什么呀？", "prompt_pattern")
+add("哪一个不一样呀？", "prompt_odd")
 add("仔细听，想一想", "prompt_infer")
 # 提示
 add("看看前面是怎么排的", "hint_pattern_1")
@@ -172,8 +172,8 @@ add("再来一局吧！", "owl_end")
 
 # ============ 计算模块（加法 / 减法） ============
 # 题干
-add("一共有几个？", "prompt_add")
-add("还剩几个？", "prompt_sub")
+add("一共有几个呀？", "prompt_add")
+add("还剩几个呀？", "prompt_sub")
 # 提示（第 1 / 2 次答错）
 add("把它们合起来，一起数一数", "hint_add_1")
 add("从大的那边开始，接着往后数", "hint_add_2")
@@ -191,13 +191,13 @@ add("别急，慢慢算", "encourage_calc_2")
 
 # ============ 时间与空间馆（时钟 / 四季 / 方位 / 星期 / 远近 / 坐标 / 积木 / 月份） ============
 # 整点时钟
-add("小钟表，几点了？", "prompt_ts_clock")
+add("小钟表，几点了呀？", "prompt_ts_clock")
 add("看看时针指到几，就是几点", "hint_ts_clock_1")
 add("短针是时针，它指着几就是几点", "hint_ts_clock_2")
 for n in range(1, 13):
     add(f"是 {n} 点，我们一起记住它", f"ts_clock_reveal_{n}")
 # 一年四季
-add("这是哪个季节？", "prompt_ts_season")
+add("这是哪个季节呀？", "prompt_ts_season")
 add("花儿都开啦，天气暖和和的", "hint_ts_spring")
 add("太阳火辣辣，可以吃西瓜", "hint_ts_summer")
 add("树叶黄了，果子熟啦", "hint_ts_autumn")
@@ -229,8 +229,8 @@ for name in ["星期一", "星期二", "星期三", "星期四", "星期五", "�
     add(name, f"ts_week_{name}")
     add(f"是{name}，我们一起记住它", f"ts_week_reveal_{name}")
 # 比远近
-add("谁离房子最近？", "prompt_ts_dist_near")
-add("谁离房子最远？", "prompt_ts_dist_far")
+add("谁离房子最近呀？", "prompt_ts_dist_near")
+add("谁离房子最远呀？", "prompt_ts_dist_far")
 add("看看谁离房子最近", "hint_ts_dist_near")
 add("看看谁离房子最远", "hint_ts_dist_far")
 add("从房子往外数一数，第一个是谁", "hint_ts_dist_2")
@@ -240,7 +240,7 @@ add("几排几号，找一找！", "prompt_ts_grid")
 add("横着数是排，竖着数是号", "hint_ts_grid_1")
 add("先找第几排，再看第几个", "hint_ts_grid_2")
 # 积木几块
-add("一共有几个正方体？", "prompt_ts_blocks")
+add("一共有几个正方体呀？", "prompt_ts_blocks")
 add("一层一层数，别忘了上面的", "hint_ts_blocks_1")
 add("先数最下面一层，再往上数", "hint_ts_blocks_2")
 # 月份
@@ -253,18 +253,18 @@ for name in ["一月", "二月", "三月", "四月", "五月", "六月", "七月
 
 # ============ 比较与测量馆（船载重 / 粗细 / 线长短 / 测量工具 / 面积 / 天平 / 水杯 / 蛋糕） ============
 # 船载重
-add("谁更重？", "prompt_ms_heavy")
+add("谁更重呀？", "prompt_ms_heavy")
 add("看看谁的船沉得更深", "hint_ms_heavy_1")
 add("船沉得深的，更重", "hint_ms_heavy_2")
 # 铅笔粗细
-add("哪支铅笔最粗？", "prompt_ms_thick")
-add("哪支铅笔最细？", "prompt_ms_thin")
+add("哪支铅笔最粗呀？", "prompt_ms_thick")
+add("哪支铅笔最细呀？", "prompt_ms_thin")
 add("看看哪支铅笔最胖", "hint_ms_thick_1")
 add("看看哪支铅笔最瘦", "hint_ms_thin_1")
 add("胖胖的是粗的，瘦瘦的是细的", "hint_ms_thick_2")
 # 线长短
-add("哪条线最短？", "prompt_ms_line_short")
-add("哪条线最长？", "prompt_ms_line_long")
+add("哪条线最短呀？", "prompt_ms_line_short")
+add("哪条线最长呀？", "prompt_ms_line_long")
 add("直直的路是不是最近？", "hint_ms_line_1")
 add("弯弯绕绕的，要走更远的路", "hint_ms_line_2")
 add("直线最短！", "reveal_ms_line_short")
@@ -283,18 +283,18 @@ add("滴答滴答走着的", "hint_ms_tool_4")
 add("想一想，它要怎么量", "hint_ms_tool_5")
 # 面积
 add("两个图形一样大吗？", "prompt_ms_area_same")
-add("哪个图形更大？", "prompt_ms_area_big")
+add("哪个图形更大呀？", "prompt_ms_area_big")
 add("数一数，各有几个小方格", "hint_ms_area_1")
 add("格子一样多，就一样大", "hint_ms_area_2")
 add("格子多的，就更大", "hint_ms_area_3")
 add("它们一样大！", "reveal_ms_area_same")
 # 天平推理
-add("想一想，谁最重？", "prompt_ms_scale_heavy")
-add("想一想，谁最轻？", "prompt_ms_scale_light")
+add("想一想，谁最重呀？", "prompt_ms_scale_heavy")
+add("想一想，谁最轻呀？", "prompt_ms_scale_light")
 add("想一想，谁比谁更重", "hint_ms_scale_1")
 add("把两个天平连起来想一想", "hint_ms_scale_2")
 # 水杯守恒
-add("哪杯水最多？", "prompt_ms_water")
+add("哪杯水最多呀？", "prompt_ms_water")
 add("水是从同一个杯子里倒出来的", "hint_ms_water_1")
 add("杯子不一样，水一样多哦", "hint_ms_water_2")
 add("水一样多！", "reveal_ms_water")
@@ -317,7 +317,7 @@ add("双数", "nh_even")
 add("单数，真棒！", "reveal_nh_odd")
 add("双数，真棒！", "reveal_nh_even")
 # 凑十
-add("还需要几个，凑成 10？", "prompt_nh_maketen")
+add("还需要几个，凑成 10 呀？", "prompt_nh_maketen")
 add("看看十格阵，空着几格", "hint_nh_maketen_1")
 add("一格一格数空着的格子", "hint_nh_maketen_2")
 for n in range(1, 8):
@@ -330,13 +330,13 @@ add("一组一组接着数", "hint_nh_group_2")
 for total in [10, 15, 20, 30]:
     add(f"一共有 {total} 个，真棒！", f"reveal_nh_group_{total}")
 # 人民币
-add("一共多少钱？", "prompt_nh_money")
+add("一共多少钱呀？", "prompt_nh_money")
 add("把纸币加起来数一数", "hint_nh_money_1")
 add("10 元、5 元、1 元，加在一起", "hint_nh_money_2")
 for yuan in range(3, 21):
     add(f"一共 {yuan} 元，真棒！", f"reveal_nh_money_{yuan}")
 # 缺了几
-add("缺了哪个数字？", "prompt_nh_missing")
+add("缺了哪个数字呀？", "prompt_nh_missing")
 add("按顺序数一数", "hint_nh_missing_1")
 add("看看哪一行断开了", "hint_nh_missing_2")
 for v in range(1, 19):
@@ -348,7 +348,7 @@ add("把它分成两份，每份是几", "hint_nh_algebra_2")
 
 # ============ 形与集合馆（立体图形 / 等分 / 梯形 / 集合 / 拼合 / 填红方块） ============
 # 立体图形
-add("这是什么立体图形？", "prompt_sh_solid")
+add("这是什么立体图形呀？", "prompt_sh_solid")
 add("圆圆的，会滚来滚去", "hint_sh_solid_1")
 add("方方正正的，六个面", "hint_sh_solid_2")
 add("像柱子一样，上下一样粗", "hint_sh_solid_3")
@@ -358,30 +358,30 @@ for name in ["球体", "正方体", "圆柱体", "圆锥体"]:
     add(name, f"sh_solid_{name}")
     add(f"这是{name}，我们一起记住它", f"sh_solid_reveal_{name}")
 # 等分
-add("分成了几份？", "prompt_sh_equal")
+add("分成了几份呀？", "prompt_sh_equal")
 add("数一数，有几份", "hint_sh_equal_1")
 add("每份一样多，是平均分", "hint_sh_equal_2")
 for n in [2, 3, 4]:
     add(f"分成了 {n} 份，真棒！", f"sh_equal_reveal_{n}")
 # 梯形分类
-add("哪个不是梯形？", "prompt_sh_classify")
+add("哪个不是梯形呀？", "prompt_sh_classify")
 add("找找哪一个不一样", "hint_sh_classify_1")
 add("梯形有两条平平的边", "hint_sh_classify_2")
 add("它不是梯形，真棒！", "reveal_sh_classify")
 # 集合包含
-add("小三角形里有几个水果？", "prompt_sh_include")
+add("小三角形里有几个水果呀？", "prompt_sh_include")
 add("数一数，小三角形里面的", "hint_sh_include_1")
 add("只看小三角形里面的，外面的不算", "hint_sh_include_2")
 for n in range(2, 7):
     add(f"有 {n} 个，真棒！", f"reveal_sh_include_{n}")
 # 拼合计数
-add("用了几块三角形？", "prompt_sh_puzzle")
+add("用了几块三角形呀？", "prompt_sh_puzzle")
 add("数一数，三角形有几块", "hint_sh_puzzle_1")
 add("拼在一起，一块一块数", "hint_sh_puzzle_2")
 for n in range(2, 6):
     add(f"用了 {n} 块，真棒！", f"reveal_sh_puzzle_{n}")
 # 填红方块
-add("红色方块该填在哪里？", "prompt_sh_redgrid")
+add("红色方块该填在哪里呀？", "prompt_sh_redgrid")
 add("看看红色方块的规律", "hint_sh_redgrid_1")
 add("一排比一排多，找一找", "hint_sh_redgrid_2")
 
